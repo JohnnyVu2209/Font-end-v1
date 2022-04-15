@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Drawer, IconButton, List } from "@material-ui/core";
 import {
   Home as HomeIcon,
-  NotificationsNone as NotificationsIcon,
-  FormatSize as TypographyIcon,
+  Person as UserIcon,
+  VpnKey as PermissionIcon,
   FilterNone as UIElementsIcon,
-  BorderAll as TableIcon,
+  BusinessCenter as CenterIcon,
   QuestionAnswer as SupportIcon,
   LibraryBooks as LibraryIcon,
   HelpOutline as FAQIcon,
@@ -33,16 +33,16 @@ const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
   {
     id: 1,
-    label: "Typography",
-    link: "/app/typography",
-    icon: <TypographyIcon />,
+    label: "User",
+    link: "/app/User",
+    icon: <UserIcon />,
   },
-  { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
+  { id: 2, label: "Center", link: "/app/center", icon: <CenterIcon /> },
   {
     id: 3,
-    label: "Notifications",
-    link: "/app/notifications",
-    icon: <NotificationsIcon />,
+    label: "Permission",
+    link: "/app/permission",
+    icon: <PermissionIcon />,
   },
   {
     id: 4,

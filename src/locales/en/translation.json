@@ -1,0 +1,150 @@
+{
+  "Sidebar": {
+    "Language": "Language",
+    "Search": "Search",
+    "User": "User",
+    "Center": "Center",
+    "Permission": "Permission",
+    "Course": "Course",
+    "Class": "Class",
+    "Request": "Request"
+  },
+  "SuccessMessage": {
+    "CrUserSuccess": "Create user successfully",
+    "UpUserSuccess": "Update user successfully",
+    "DelUserSuccess": "Delete user successfully",
+    "CrCenterSuccess": "Create center successfully",
+    "UpCenterSuccess": "Update center successfully",
+    "DelCenterSuccess": "Delete center successfully",
+    "RmvMemSuccess": "Remove member successfully",
+    "AddMemSuccess": "Add member successfully",
+    "CrRoleSuccess": "Create role successfully",
+    "DelRoleSuccess": "Delete role successfully",
+    "EditRoleSuccess": "Update role successfully"
+  },
+  "ErrorMessage": {
+    "EnterUsername": "Please enter username.",
+    "EnterPassword": "Please enter password.",
+    "UsernameOrPasswordIsIncorrect": "Username or password is incorrect.",
+    "RequiredUsername": "Username is required",
+    "MinUser": "Username must be at least 6 characters",
+    "MaxUser": "Username can NOT be more than 24 characters",
+    "UserFormat": "Username only allow alphabet and number characters",
+    "RequiredPassword": "Password is required",
+    "PasswordFormat": "Password must contain 6 characters, One Uppercase, One Lowercase and One Number",
+    "RequiredFName": "First name is required",
+    "RequiredLName": "Last name is required",
+    "MaxFirstName": "First name can NOT be more than 50 characters",
+    "MaxLastName": "Last name can NOT be more than 50 characters",
+    "PhoneFormat": "Phone number is not valid",
+    "EmailFormat": "Must be a valid email address",
+    "MaxEmail": "Email must be less than 100 charaters",
+    "MinDob": "Should be greater than 6",
+    "MaxDob": "Should NOT be more than 100",
+    "MinAddress": "Address must be at least 6 characters",
+    "MaxAvatar": "Uploaded file is too big",
+    "AvatarFormat": "Uploaded file has unsupported format",
+    "RequiredRole": "Role is required",
+    "RequiredCode": "Role's code is required",
+    "RequiredCenter": "Center is required",
+    "RequiredGender": "Gender is required",
+
+    "RequiredCentername": "Center name is required",
+    "UrlFormat": "Url is not valid",
+    "CrUserFail": "Create user failed",
+    "UpUserFail": "Update user failed",
+    "DelUserFail": "Delete user failed",
+    "CrCenterFail": "Create center failed",
+    "UpCenterFail": "Update center failed",
+    "DelCenterFail": "Delete center failed",
+    "RmvMemFail": "Remove member from center failed",
+    "AddMemFail": "Add member to center failed",
+    "CrRoleFail": "Create role failed",
+    "DelRoleFail": "Delete role failed",
+    "DelDefRole": "Can not delete default role",
+    "EditRoleFail": "Edit role failed"
+  },
+  "Login": {
+    "Learning Management": "Learning Management",
+    "Username": "Username",
+    "Password": "Password",
+    "Login": "Login"
+  },
+  "Action": {
+    "Create": "New",
+    "Delete": "Delete",
+    "Update": "Edit",
+    "Save": "Save",
+    "Cancel": "Cancel",
+    "Back": "Back",
+    "Add": "Add",
+    "Remove": "Remove",
+    "Yes": "Yes",
+    "No": "No",
+    "Detail": "Detail"
+  },
+  "Title": {
+    "AddMember": "Add Member",
+    "Confirmation": "Confirmation",
+    "MemberList": "Member list"
+  },
+  "Confirmation": {
+    "Remove": "Are you sure you want to remove ",
+    "Delete": "Are you sure you want to delete ",
+    "NoUnvCA": "Do not have any Central Admin are unavailable"
+  },
+  "User": {
+    "Management": "User Management",
+    "Id": "Id",
+    "LastName": "Last Name",
+    "FirstName": "First Name",
+    "FullName": "Full Name",
+    "Gender": "Gender",
+    "Male": "Male",
+    "Female": "Female",
+    "Email": "Email",
+    "Phone": "Phone",
+    "DateOfBirth": "Date of birth",
+    "Address": "Address",
+    "Avatar": "Avatar",
+    "EnterDob": "Click to select a date",
+    "SelectGender": "Select gender",
+    "SelectRole": "Select role",
+    "SelectCenter": "Select center",
+    "Role": "Role",
+    "row": {
+      "Null": "haven't filled"
+    }
+  },
+  "Center": {
+    "Id": "Id",
+    "Management": "Center Management",
+    "Center": "Center",
+    "Code": "Code",
+    "Name": "Center name",
+    "ContactPhone": "Contact Phone",
+    "Address": "Address",
+    "Fax": "Fax",
+    "Website": "Website",
+    "Status": "Status",
+    "Enable": "Enable",
+    "Disable": "Disable"
+  },
+  "Role": {
+    "Role": "Role"
+  },
+  "Permission": {
+    "Management": "Permission Management",
+    "Name": "Permission name",
+    "Code": "Permission Code"
+  },
+  "Class": {
+    "Id": "Id",
+    "CourseName": "CourseName",
+    "TeacherName": "TeacherName",
+    "StartDate": "StartDate",
+    "EndDate": "EndDate"
+  },
+  "Notification": "Notification",
+  "NotFound": "Not found"
+}

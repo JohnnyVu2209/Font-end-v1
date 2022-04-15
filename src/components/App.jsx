@@ -10,6 +10,7 @@ import Login from "../pages/login/Login";
 
 // context
 import { useUserState } from "../context/UserContext";
+import ViewUserDetail from '../pages/Admin/User/ViewUserDetail'
 
 export default function App() {
   // global
