@@ -7,17 +7,33 @@ import Themes from "./themes";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import { LayoutProvider } from "./context/LayoutContext";
-import { UserProvider } from "./context/UserContext";
+//import { UserProvider } from "./context/UserContext";
+import { Provider } from "react-redux";
+import { store } from "./features/store"
+
+import i18n from './translation/i18next';
+import { I18nextProvider } from "react-i18next";
+
+import TimeAgo from 'javascript-time-ago'
+
+import en from 'javascript-time-ago/locale/en.json'
+import vi from 'javascript-time-ago/locale/vi.json'
+
+TimeAgo.addDefaultLocale(vi)
+TimeAgo.addLocale(en)
 
 ReactDOM.render(
-  <LayoutProvider>
-    <UserProvider>
-      <ThemeProvider theme={Themes.default}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
-    </UserProvider>
-  </LayoutProvider>,
+  <Provider store={store}>
+    <LayoutProvider>
+        <ThemeProvider theme={Themes.default}>
+          <I18nextProvider i18n={i18n}>
+            <CssBaseline />
+            <App />
+          </I18nextProvider>
+        </ThemeProvider>
+    </LayoutProvider>
+  </Provider>
+  ,
   document.getElementById("root"),
 );
 

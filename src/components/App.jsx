@@ -9,11 +9,11 @@ import Error from "../pages/error/Error";
 import Login from "../pages/login/Login";
 
 // context
-import { useUserState } from "../context/UserContext";
+import { useSelector } from "react-redux";
 
 export default function App() {
   // global
-  var { isAuthenticated } = useUserState();
+  var { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <HashRouter>

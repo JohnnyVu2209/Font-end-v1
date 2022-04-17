@@ -1,0 +1,155 @@
+{
+  "Sidebar": {
+    "Language": "Ngôn Ngữ",
+    "Search": "Tìm kiếm",
+    "User": "Người dùng",
+    "Center": "Trung Tâm",
+    "Permission": "Phân quyền",
+    "Course": "Khóa học",
+    "Class": "Lớp học",
+    "Request": "Yêu Cầu"
+  },
+  "SuccessMessage": {
+    "CrUserSuccess": "Tạo người dùng thành công",
+    "UpUserSuccess": "Cập nhật người dùng thành công",
+    "DelUserSuccess": "Xóa người dùng thành công",
+    "CrCenterSuccess": "Tạo trung tâm thành công",
+    "UpCenterSuccess": "Cập nhật trung tâm thành công",
+    "DelCenterSuccess": "Xóa trung tâm thành công",
+    "RmvMemSuccess": "Xoá thành viên khỏi trung tâm thành công",
+    "AddMemSuccess": "Thêm thành viên vào trung tâm thành công",
+    "CrRoleSuccess": "Tạo quyền thành công",
+    "DelRoleSuccess": "Xóa quyền thành công",
+    "EditRoleSuccess": "Cập nhật quyền thành công"
+  },
+  "ErrorMessage": {
+    "EnterUsername": "Nhập tên tài khoản",
+    "EnterPassword": "Nhập mật khẩu",
+    "UsernameOrPasswordIsIncorrect": "Tài khoản hoặc mật khẩu sai.",
+    "RequiredUsername": "Bắt buộc nhập tên tài khoản",
+    "MinUser": "Tên tài khoản không được ít hơn 6 kí tự",
+    "MaxUser": "Tên tài khoản không được nhiều hơn 24 kí tự",
+    "UserFormat": "Tên tài khoản chỉ được nhập kí tự chữ và số",
+    "RequiredPassword": "Bắt buộc nhập mật khẩu",
+    "PasswordFormat": "Mật khẩu phải chứa ít nhất 6 kí tự trong đó có 1 chữ HOA, 1 chữ thường và 1 số",
+    "RequiredFName": "Bắt buộc nhập tên",
+    "RequiredLName": "Bắt buộc nhập họ",
+    "MaxFirstName": "Tên không được nhiều hơn 50 kí tự",
+    "MaxLastName": "Họ không được nhiều hơn 50 kí tự",
+    "PhoneFormat": "Số điện thoại không hợp lệ",
+    "EmailFormat": "Email không hợp lệ",
+    "MaxEmail": "Email không được dài quá 100 kí tự",
+    "MinDob": "Người dùng không thể nhờ hơn 6 tuổi",
+    "MaxDob": "Người dùng không thể lớn hơn 100 tuổi",
+    "MinAddress": "Địa chỉ không được ít hơn 6 kí tự",
+    "MaxAvatar": "Hình có dung lượng quá lớn",
+    "AvatarFormat": "Không hỗ trợ định dạng ảnh",
+    "RequiredRole": "Bắt buộc chuyền vai trò",
+    "RequiredCode": "Bắt buộc nhập mã phân quyền",
+    "RequiredCenter": "Bắt buộc chuyền trung tâm",
+    "RequiredGender": "Bắt buộc chuyền giới tính",
+
+    "RequiredCentername": "Bắt buộc nhập tên trung tâm",
+    "UrlFormat": "Địa chỉ web không đúng định dạng",
+
+    "CrUserFail": "Tạo người dùng thất bại",
+    "UpUserFail": "Cập nhật người dùng thất bại",
+    "DelUserFail": "Xóa người dùng thất bại",
+
+    "CrCenterFail": "Tạo trung tâm thất bại",
+    "UpCenterFail": "Cập nhật trung tâm thất bại",
+    "DelCenterFail": "Xóa trung tâm thất bại",
+    "RmvMemFail": "Xóa thành viên khỏi trung tâm thất bại",
+    "AddMemFail": "Thêm thành viên vào trung tâm thất bại",
+
+    "CrRoleFail": "Tạo quyền thất bại",
+    "DelRoleFail": "Xóa quyền thất bại",
+    "DelDefRole": "Không thể xóa quyền mặc định",
+    "EditRoleFail": "Cập nhật quyền thất bại"
+  },
+  "Login": {
+    "Learning Management": "Website quản lý hờc tập",
+    "Username": "Tên tài khoản",
+    "Password": "Mật khẩu",
+    "Login": "Đăng nhập"
+  },
+  "Action": {
+    "Create": "Tạo",
+    "Delete": "Xóa",
+    "Update": "Sửa",
+    "Save": "Lưu",
+    "Cancel": "Hủy",
+    "Back": "Trở về",
+    "Add": "Thêm",
+    "Remove": "Xóa",
+    "Yes": "Có",
+    "No": "Không",
+    "Detail": "Chi tiết"
+  },
+  "Title": {
+    "AddMember": "Thêm thành viên",
+    "Confirmation": "Xác nhận",
+    "MemberList": "Danh sách thành viên"
+  },
+
+  "Confirmation": {
+    "Remove": "Bạn thật sự muốn xóa ",
+    "Delete": "Bạn thật sự muốn xóa người dùng này không",
+    "NoUnvCA": "Không có quản lý chưa có trung tâm"
+  },
+  "User": {
+    "Management": "Quản lý người dùng",
+    "Id": "Id",
+    "LastName": "Họ",
+    "FirstName": "Tên",
+    "FullName": "Họ Tên",
+    "Gender": "Giới tính",
+    "Male": "Nam",
+    "Female": "Nữ",
+    "Email": "Email",
+    "Phone": "Số điện thoại",
+    "DateOfBirth": "Ngày sinh",
+    "Address": "Địa chỉ",
+    "Avatar": "Ảnh đại diện",
+    "EnterDob": "Nhấn vào đây để chọn",
+    "Role": "Vai trò",
+    "SelectGender": "Chọn giới tính",
+    "SelectRole": "Chọn vai trò",
+    "SelectCenter": "Chọn trung tâm",
+    "row": {
+      "Null": "Chưa điền"
+    }
+  },
+  "Center": {
+    "Id": "Id",
+    "Management": "Quản lý trung tâm",
+    "Center": "Trung Tâm",
+    "Code": "Mã trung tâm",
+    "Name": "Tên trung tâm",
+    "ContactPhone": "Số liên hệ",
+    "Address": "Địa chỉ trung tâm",
+    "Fax": "Fax",
+    "Website": "Địa chỉ trang web",
+    "Status": "Tình trạng",
+    "Enable": "Hiệu lực",
+    "Disable": "Vô hiệu hóa"
+  },
+  "Role": {
+    "Role": "Vai trò"
+  },
+
+  "Permission": {
+    "Management": "Quản lý phân quyền",
+    "Name": "Tên quyền",
+    "Code": "Mã quyền"
+  },
+  "Class": {
+    "Id": "Id",
+    "CourseName": "Tên Khóa Học ",
+    "TeacherName": "Tên Giáo Viên",
+    "StartDate": "Ngày Bắt Đầu",
+    "EndDate": "Ngày Kết Thúc"
+  },
+  "Notification": "Thông báo",
+  "NotFound": "Không tìm thấy"
+}

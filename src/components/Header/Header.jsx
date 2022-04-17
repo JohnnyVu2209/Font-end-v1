@@ -34,7 +34,8 @@ import {
   useLayoutDispatch,
   toggleSidebar,
 } from "../../context/LayoutContext";
-import { useUserDispatch, signOut } from "../../context/UserContext";
+import { useDispatch } from "react-redux";
+import { logout } from "../../features/auth/authSlice";
 
 const messages = [
   {
@@ -95,7 +96,7 @@ export default function Header(props) {
   // global
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
-  var userDispatch = useUserDispatch();
+  var dispatch = useDispatch();
 
   // local
   var [mailMenu, setMailMenu] = useState(null);
@@ -104,6 +105,11 @@ export default function Header(props) {
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
+
+  const signOut = () => {
+    dispatch(logout());
+    props.history.push("/login");
+  }
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -328,7 +334,7 @@ export default function Header(props) {
             <Typography
               className={classes.profileMenuLink}
               color="primary"
-              onClick={() => signOut(userDispatch, props.history)}
+              onClick={() => signOut()}
             >
               Sign Out
             </Typography>

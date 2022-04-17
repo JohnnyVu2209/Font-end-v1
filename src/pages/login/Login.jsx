@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   CircularProgress,
@@ -20,21 +20,77 @@ import logo from "./logo.svg";
 import google from "../../images/google.svg";
 
 // context
-import { useUserDispatch, loginUser } from "../../context/UserContext";
+//import { useUserDispatch, loginUser } from "../../context/UserContext";
 
+//Validation
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import ERRORS from "../../../../../../CAPSTONE - LMS/SourceCode/FrontEnd/Front-end/src/constants/ErrorCode";
+import { useSelector, useDispatch } from "react-redux";
+
+//service
+import authService from "../../services/auth.service";
+import {login} from "../../features/auth/authSlice"
+import {setMessage, clearMessage} from "../../features/message/messageSlice"
 function Login(props) {
   var classes = useStyles();
 
   // global
-  var userDispatch = useUserDispatch();
-
+  var dispatch = useDispatch();
+  var message = useSelector((state) => state.message.message)
   // local
   var [isLoading, setIsLoading] = useState(false);
   var [error, setError] = useState(null);
   var [activeTabId, setActiveTabId] = useState(0);
   var [nameValue, setNameValue] = useState("");
-  var [loginValue, setLoginValue] = useState("admin@flatlogic.com");
-  var [passwordValue, setPasswordValue] = useState("password");
+  var [loginValue, setLoginValue] = useState("");
+  var [passwordValue, setPasswordValue] = useState("");
+  var [greet, setGreet] = useState("");
+
+  //get time
+  useEffect(() => {
+    var today = new Date();
+    var curHr = today.getHours();
+    if (curHr < 12)
+      setGreet("Good Morning");
+    else if (curHr < 18)
+      setGreet("Good Afternoon");
+    else
+      setGreet("Good Evening");
+  }, []);
+
+  //Validation 
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required(ERRORS.ERR_USER_NOT_BLANK).trim(),
+    password: Yup.string().required(ERRORS.ERR_PASSWORD_NOT_BLANK).trim(),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(validationSchema)
+  });
+
+  const loginUser = (loginVal, password) =>{
+    setIsLoading(true);
+    setTimeout(() => {
+      authService.login(loginVal, password).then(
+        (data) => {
+          setIsLoading(false);
+          dispatch(login(data));
+          if(message)
+            dispatch(clearMessage());
+          props.history.push('/app/dashboard')
+        }
+      ).catch((error) => {
+          dispatch(setMessage(ERRORS[error.response.data.Message]));
+          setIsLoading(false);
+      });
+    }, 2000);
+  }
 
   return (
     <Grid container className={classes.container}>
@@ -48,27 +104,29 @@ function Login(props) {
             Login
           </Typography>
           <Typography variant="h1" className={classes.greeting}>
-            Good Morning, User
+            {greet}, User
           </Typography>
-          <Fade in={error}>
+          <Fade in={message ? true : false}>
             <Typography color="secondary" className={classes.errorMessage}>
               Something is wrong with your login or password :(
             </Typography>
           </Fade>
           <TextField
-            id="email"
+            id="username"
             InputProps={{
               classes: {
                 underline: classes.textFieldUnderline,
                 input: classes.textField,
               },
             }}
-            value={loginValue}
+            {...register('username')}
             onChange={e => setLoginValue(e.target.value)}
             margin="normal"
-            placeholder="Email Adress"
-            type="email"
+            placeholder="Username"
+            type="text"
             fullWidth
+            error={errors.username}
+            helperText={errors.username?.message ? errors.username?.message : null}
           />
           <TextField
             id="password"
@@ -78,12 +136,14 @@ function Login(props) {
                 input: classes.textField,
               },
             }}
-            value={passwordValue}
+            {...register('password')}
             onChange={e => setPasswordValue(e.target.value)}
             margin="normal"
             placeholder="Password"
             type="password"
             fullWidth
+            error={errors.password}
+            helperText={errors.password?.message ? errors.password?.message : null}
           />
           <div className={classes.formButtons}>
             {isLoading ? (
@@ -95,12 +155,8 @@ function Login(props) {
                 }
                 onClick={() =>
                   loginUser(
-                    userDispatch,
                     loginValue,
-                    passwordValue,
-                    props.history,
-                    setIsLoading,
-                    setError,
+                    passwordValue
                   )
                 }
                 variant="contained"
