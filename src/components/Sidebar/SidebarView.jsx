@@ -14,6 +14,9 @@ import {
   LibraryBooks as LibraryIcon,
   HelpOutline as FAQIcon,
   ArrowBack as ArrowBackIcon,
+  Person as userIcon,
+  Domain as centerIcon,
+  VerifiedUser as permissionIcon
 } from "@material-ui/icons";
 import classNames from 'classnames';
 
@@ -48,6 +51,12 @@ const structure = [
   { id: 14, label: 'Background', link: '', icon: <Dot size="small" color="secondary" /> },
 ];
 
+const AdminSidebarStructure = [
+  {id:0, lablel:'User Management', link: '/app/user', icon: <userIcon/>},
+  {id:1, lablel:'Center Management', link: '/app/center', icon: <centerIcon/>},
+  {id:2, lablel:'Permission Management', link: '/app/permission', icon: <permissionIcon/>},
+]
+
 const SidebarView = ({ classes, theme, toggleSidebar, isSidebarOpened, isPermanent, location }) => {
   return (
     <Drawer
@@ -72,7 +81,7 @@ const SidebarView = ({ classes, theme, toggleSidebar, isSidebarOpened, isPermane
         </IconButton>
       </div>
       <List className={classes.sidebarList}>
-        {structure.map(link => <SidebarLink key={link.id} location={location} isSidebarOpened={isSidebarOpened} {...link} />)}
+        {AdminSidebarStructure.map(link => <SidebarLink key={link.id} location={location} isSidebarOpened={isSidebarOpened} {...link} />)}
       </List>
     </Drawer>
   );

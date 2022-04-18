@@ -83,7 +83,8 @@ function Login(props) {
           dispatch(login(data));
           if(message)
             dispatch(clearMessage());
-          props.history.push('/app/dashboard')
+            window.location.reload();
+          props.history.push('/app/user')
         }
       ).catch((error) => {
           dispatch(setMessage(ERRORS[error.response.data.Message]));

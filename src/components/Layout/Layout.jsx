@@ -31,6 +31,9 @@ import Maps from "../../pages/maps/Maps";
 import Tables from "../../pages/tables/Tables";
 import Icons from "../../pages/icons/Icons";
 import Charts from "../../pages/charts/Charts";
+import User from "../../pages/user/userManagement";
+import Center from "../../pages/center/centerManagement";
+import Permission from "../../pages/permission/permissionManagement"
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -53,6 +56,9 @@ function Layout(props) {
           >
             <div className={classes.fakeToolbar} />
             <Switch>
+              <Route path="/app/user" component={User}/>
+              <Route path="/app/center" component={Center}/>
+              <Route path="/app/permission" component={Permission}/>
               <Route path="/app/dashboard" component={Dashboard} />
               <Route path="/app/typography" component={Typography} />
               <Route path="/app/tables" component={Tables} />
