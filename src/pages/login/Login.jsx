@@ -10,7 +10,20 @@ import {
   Fade,
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
+import {
+  InputLabel,
+  Input,
+  IconButton,
+  InputAdornment,
+  FormControl,
+  FormHelperText
+} from "@mui/material"
+import {
+  Visibility,
+  VisibilityOff
+} from "@mui/icons-material"
 import classnames from "classnames";
+
 
 // styles
 import useStyles from "./styles";
@@ -31,8 +44,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 //service
 import authService from "../../services/auth.service";
-import {login} from "../../features/auth/authSlice"
-import {setMessage, clearMessage} from "../../features/message/messageSlice"
+import { login } from "../../features/auth/authSlice"
+import { setMessage, clearMessage } from "../../features/message/messageSlice"
 function Login(props) {
   var classes = useStyles();
 
@@ -46,6 +59,7 @@ function Login(props) {
   var [nameValue, setNameValue] = useState("");
   var [loginValue, setLoginValue] = useState("");
   var [passwordValue, setPasswordValue] = useState("");
+  var [showPassword, setShowPassword] = useState(false);
   var [greet, setGreet] = useState("");
 
   //get time
@@ -74,24 +88,30 @@ function Login(props) {
     resolver: yupResolver(validationSchema)
   });
 
-  const loginUser = (loginVal, password) =>{
+  const loginUser = (loginVal, password) => {
     setIsLoading(true);
     setTimeout(() => {
       authService.login(loginVal, password).then(
         (data) => {
           setIsLoading(false);
           dispatch(login(data));
-          if(message)
+          if (message)
             dispatch(clearMessage());
-            window.location.reload();
+          window.location.reload();
           props.history.push('/app/user')
         }
       ).catch((error) => {
-          dispatch(setMessage(ERRORS[error.response.data.Message]));
-          setIsLoading(false);
+        dispatch(setMessage(ERRORS[error.response.data.Message]));
+        setIsLoading(false);
       });
     }, 2000);
   }
+
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <Grid container className={classes.container}>
@@ -104,7 +124,7 @@ function Login(props) {
           <Typography variant="h1" className={classes.greeting}>
             Login
           </Typography>
-          <Typography variant="h1" className={classes.greeting}>
+          <Typography variant="h2" className={classes.greeting}>
             {greet}, User
           </Typography>
           <Fade in={message ? true : false}>
@@ -112,40 +132,46 @@ function Login(props) {
               Something is wrong with your login or password :(
             </Typography>
           </Fade>
-          <TextField
-            id="username"
-            InputProps={{
-              classes: {
-                underline: classes.textFieldUnderline,
-                input: classes.textField,
-              },
-            }}
+          <FormControl error={errors.username} fullWidth variant="standard" margin="dense">
+            <InputLabel htmlFor="standard-username">Username</InputLabel>
+            <Input
+            id="standard-username"
+            type="text"
             {...register('username')}
             onChange={e => setLoginValue(e.target.value)}
-            margin="normal"
-            placeholder="Username"
-            type="text"
-            fullWidth
-            error={errors.username}
-            helperText={errors.username?.message ? errors.username?.message : null}
-          />
-          <TextField
-            id="password"
-            InputProps={{
-              classes: {
-                underline: classes.textFieldUnderline,
-                input: classes.textField,
-              },
-            }}
-            {...register('password')}
-            onChange={e => setPasswordValue(e.target.value)}
-            margin="normal"
-            placeholder="Password"
-            type="password"
-            fullWidth
-            error={errors.password}
-            helperText={errors.password?.message ? errors.password?.message : null}
-          />
+            />
+            {
+              errors.username?.message ? (<FormHelperText id="component-error-text">{errors.username?.message}</FormHelperText>) : null
+            }
+            
+          </FormControl>
+
+          <FormControl error={errors.password} fullWidth variant="standard">
+            <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+            <Input
+              id="standard-adornment-password"
+              margin="normal"
+              type={showPassword ? 'text' : 'password'}
+              //value={values.password}
+              {...register('password')}
+              onChange={e => setPasswordValue(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+            {
+              errors.password?.message ? (<FormHelperText id="component-error-text">{errors.password?.message}</FormHelperText>) : null
+            }
+
+          </FormControl>
           <div className={classes.formButtons}>
             {isLoading ? (
               <CircularProgress size={26} className={classes.loginLoader} />

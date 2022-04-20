@@ -24,9 +24,12 @@ const authSlice = createSlice({
             state.isAdmin = false;
             state.isCAdmin = false;
         },
+        refreshToken:(state,{payload}) => {
+            state.user.Token = payload
+        }
     }
 })
 
 const {reducer, actions} = authSlice;
-export const {login, logout} = actions;
+export const {login, logout, refreshToken} = actions;
 export default reducer;

@@ -6,6 +6,7 @@ import { CssBaseline } from "@material-ui/core";
 import Themes from "./themes";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
+import setupInterceptors from "./services/setupInterceptors";
 import { LayoutProvider } from "./context/LayoutContext";
 //import { UserProvider } from "./context/UserContext";
 import { Provider } from "react-redux";
@@ -22,6 +23,7 @@ import vi from 'javascript-time-ago/locale/vi.json'
 TimeAgo.addDefaultLocale(vi)
 TimeAgo.addLocale(en)
 
+setupInterceptors(store);
 ReactDOM.render(
   <Provider store={store}>
     <LayoutProvider>
@@ -36,7 +38,6 @@ ReactDOM.render(
   ,
   document.getElementById("root"),
 );
-
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA

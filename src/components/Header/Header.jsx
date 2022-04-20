@@ -7,7 +7,7 @@ import {
   Menu,
   MenuItem,
   Fab,
-  Link
+  Link,
 } from "@material-ui/core";
 import {
   Menu as MenuIcon,
@@ -17,6 +17,7 @@ import {
   Search as SearchIcon,
   Send as SendIcon,
   ArrowBack as ArrowBackIcon,
+  Public as LanguageIcon
 } from "@material-ui/icons";
 import classNames from "classnames";
 
@@ -36,6 +37,7 @@ import {
 } from "../../context/LayoutContext";
 import { useDispatch } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
+import { useTranslation } from "react-i18next";
 
 const messages = [
   {
@@ -97,7 +99,9 @@ export default function Header(props) {
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
   var dispatch = useDispatch();
-
+  const {t, i18n } = useTranslation();
+  const lang = localStorage.getItem('lang');
+  
   // local
   var [mailMenu, setMailMenu] = useState(null);
   var [isMailsUnread, setIsMailsUnread] = useState(true);
@@ -105,6 +109,19 @@ export default function Header(props) {
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
+  
+  const handleChangeLanguage = () =>
+    {
+        if(lang === 'vi')
+        {
+            i18n.changeLanguage('en');
+            localStorage.setItem('lang','en');
+        }
+        else{
+            i18n.changeLanguage('vi');
+            localStorage.setItem('lang','vi');
+        }
+    }
 
   const signOut = () => {
     dispatch(logout());
@@ -143,10 +160,10 @@ export default function Header(props) {
           )}
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
-          React Material Admin
+          Learning Management
         </Typography>
         <div className={classes.grow} />
-        <Button component={Link} href="https://flatlogic.com/templates/react-material-admin-full" variant={"outlined"} color={"secondary"} className={classes.purchaseBtn}>Unlock full version</Button>
+        
         <div
           className={classNames(classes.search, {
             [classes.searchFocused]: isSearchOpen,
@@ -201,6 +218,15 @@ export default function Header(props) {
           >
             <MailIcon classes={{ root: classes.headerIcon }} />
           </Badge>
+        </IconButton>
+        <IconButton
+          aria-haspopup="true"
+          color="inherit"
+          className={classes.headerMenuButton}
+          aria-controls="Language"
+          onClick={e => handleChangeLanguage()}
+        >
+          <LanguageIcon classes={{ root: classes.headerIcon }} />
         </IconButton>
         <IconButton
           aria-haspopup="true"

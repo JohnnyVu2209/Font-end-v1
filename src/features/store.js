@@ -1,10 +1,18 @@
 import {configureStore} from "@reduxjs/toolkit";
 import messageReducer from "./message/messageSlice"
-import authReducer from "./auth/authSlice"
+import authReducer from "./auth/authSlice";
+import userReducer from "./user/userSlice";
+import searchReducer from "./search/searchSlice";
+import centerReducer from "./center/centerSlice";
+import permissionReducer from "./permission/permissionSlice";
 
 export const store = configureStore({
     reducer:{
         message: messageReducer,
-        auth: authReducer
+        auth: authReducer,
+        user: userReducer,
+        search: searchReducer,
+        center: centerReducer,
+        permission: permissionReducer
     },
 });

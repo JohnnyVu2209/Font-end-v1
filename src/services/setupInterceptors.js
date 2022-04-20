@@ -1,6 +1,6 @@
 import { instance as axiosInstance } from '../helpers/httpHelper';
 import tokenService from './token.service';
-import { refreshToken, logout } from '../actions/auth';
+import { refreshToken, logout } from "../features/auth/authSlice";
 
 const setup = (store) => {
     axiosInstance.interceptors.request.use(
@@ -12,6 +12,7 @@ const setup = (store) => {
             if (config.url.includes('form')) {
                 config.headers["Content-Type"] = "multipart/form-data";
             }
+            console.log("from request: ",config);
             return config;
         }, (error) => {
             return Promise.reject(error);
@@ -25,7 +26,7 @@ const setup = (store) => {
         async (err) => {
             console.log(err.response);
             const originalConfig = err.config;
-            if (err.response.status === 401 && !originalConfig._retry) {
+            if (err.response?.status === 401 && !originalConfig._retry) {
                 originalConfig._retry = true;
                 try {
                     if (err.response.data.Message === 'USER_NOT_EXIST') {
@@ -46,6 +47,12 @@ const setup = (store) => {
                     return Promise.reject(_err);
                 }
             }
+            else if (err.response?.status === 400 && err.response.data.Message === 'ERR_REFRESH_TOKEN_FAIL')
+            {
+                dispatch(logout());
+                return axiosInstance(originalConfig);
+            }
+                
             return Promise.reject(err);
         }
     );

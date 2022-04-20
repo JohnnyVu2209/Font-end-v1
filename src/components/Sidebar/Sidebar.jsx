@@ -108,7 +108,8 @@ function Sidebar({ location }) {
 [
   {id:1, label:'User', link: '/app/user', icon: <UserIcon/>},
   {id:2, label:'Center', link: '/app/center', icon: <CenterIcon/>},
-  {id:3, label:'Permission', link: '/app/permission', icon: <PermissionIcon/>} 
+  {id:3, label:'Permission', link: '/app/permission', icon: <PermissionIcon/>},
+  //{ id: 4, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
 ] : [{ id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
 {
   id: 1,

@@ -1,49 +1,203 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Table,
   TableRow,
   TableHead,
   TableBody,
+  TableFooter,
+  TablePagination,
+  TableContainer,
+  Paper,
+  TableSortLabel,
   TableCell,
-  Chip
-} from "@material-ui/core";
+  Chip,
+  Checkbox,
+  TextField,
+} from "@mui/material";
+import {
+  ArrowDropUp as AcsIcon,
+  ArrowDropDown as DescIcon,
+} from "@material-ui/icons";
 import useStyles from "../../styles";
+import { useTable } from 'react-table'
+import { useFilters, useGlobalFilter, usePagination, useRowSelect, useSortBy } from "react-table/dist/react-table.development";
+import { useSelector } from "react-redux";
+import { useAsyncDebounce } from "react-table/dist/react-table.development";
 
-const states = {
-  sent: "success",
-  pending: "warning",
-  declined: "secondary",
-};
 
-export default function TableComponent({ data }) {
-  const classes = useStyles();
-  var keys = Object.keys(data[0]).map(i => i.toUpperCase());
-  keys.shift(); // delete "id" key
+// const states = {
+//   sent: "success",
+//   pending: "warning",
+//   declined: "secondary",
+// };
+
+
+function DefaultColumnFilter({
+  column: { filterValue, preFilteredRows, setFilter }
+}) {
+  const count = preFilteredRows.length
 
   return (
-    <Table className="mb-0">
-      <TableHead>
-        <TableRow>
-          {keys.map(key => (
-            <TableCell key={key}>{key}</TableCell>
+    <TextField
+      className="form-control"
+      value={filterValue || ''}
+      onChange={e => {
+        setFilter(e.target.value || undefined)
+      }}
+      placeholder={`Search ${count} records...`}
+    />
+  )
+}
+
+const IndeterminateCheckbox = React.forwardRef(
+  ({ indeterminate, ...rest }, ref) => {
+    const defaultRef = React.useRef()
+    const resolvedRef = ref || defaultRef
+
+    React.useEffect(() => {
+      resolvedRef.current.indeterminate = indeterminate
+    }, [resolvedRef, indeterminate])
+
+    return (
+      <>
+        <Checkbox ref={resolvedRef} {...rest} />
+      </>
+    )
+  }
+)
+
+export default function TableComponent({
+  columns,
+  data,
+  CurrentPage,
+  PerPage,
+  PerRowChangeHandler,
+  PageChangeHandler,
+  TotalItems, }) {
+  const classes = useStyles();
+  // var keys = Object.keys(data[0]).map(i => i.toUpperCase());
+  // keys.shift(); // delete "id" key
+  const {searchText} = useSelector((state) => state.search);
+
+  const defaultColumn = React.useMemo(
+    () => ({
+      Filter: DefaultColumnFilter,
+    }),
+    []
+  )
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    rows,
+    page,
+    selectedFlatRows,
+    state,
+    state: { pageIndex, selectedRowIds },
+    preGlobalFilteredRows,
+    setGlobalFilter,
+  } = useTable({
+    columns,
+    data,
+    defaultColumn,
+    initialState: { hiddenColumns: ["Id"] },
+  },
+    useFilters,
+    useGlobalFilter,
+    useSortBy,
+    usePagination,
+    useRowSelect,
+    hooks => {
+      hooks.allColumns.push(columns =>
+        [
+          {
+            id: 'selection',
+            Header: ({ getToggleAllRowsSelectedProps }) => (
+              <div>
+                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+              </div>
+            ),
+            Cell: ({ row }) => (
+              <div>
+                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+              </div>
+            ),
+          },
+          ...columns,
+
+        ]
+      )
+    });
+
+    useEffect(() => {
+      setGlobalFilter(searchText);
+    }, [searchText]);
+    
+  return (
+    <TableContainer component={Paper}>
+      <Table  {...getTableProps()}>
+        <TableHead>
+          {headerGroups.map(headerGroup => (
+            <>
+              <TableRow {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map(column => (
+                  <TableCell {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    <TableSortLabel
+                      active={column.isSorted}
+                      direction={column.isSortedDesc ? 'desc' : 'asc'}
+                    >
+                      {column.render('Header')}
+                    </TableSortLabel>
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+              {headerGroup.headers.map(column => (
+                <TableCell>
+                  {column.canFilter ? column.render('Filter') : null}
+                </TableCell>
+              ))}
+            </TableRow>
+            </>
           ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {data.map(({ id, name, email, product, price, date, city, status }) => (
-          <TableRow key={id}>
-            <TableCell className="pl-3 fw-normal">{name}</TableCell>
-            <TableCell>{email}</TableCell>
-            <TableCell>{product}</TableCell>
-            <TableCell>{price}</TableCell>
-            <TableCell>{date}</TableCell>
-            <TableCell>{city}</TableCell>
-            <TableCell>
-              <Chip label={status} classes={{root: classes[states[status.toLowerCase()]]}}/>
-            </TableCell>
+        </TableHead>
+        <TableBody>
+          {rows.map((row, i) => {
+            prepareRow(row)
+            return (
+              <TableRow {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return (
+                    <TableCell {...cell.getCellProps()}>
+                      {cell.render('Cell')}
+                    </TableCell>
+                  )
+                })}
+              </TableRow>
+            )
+          })}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              count={TotalItems}
+              rowsPerPage={PerPage}
+              page={CurrentPage - 1}
+              SelectProps={{
+                inputProps: {
+                  'aria-label': 'rows per page',
+                },
+                native: true,
+              }}
+              onPageChange={PageChangeHandler}
+              onRowsPerPageChange={PerRowChangeHandler}
+            />
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableFooter>
+      </Table>
+    </TableContainer>
   );
 }

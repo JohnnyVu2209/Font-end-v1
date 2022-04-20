@@ -8,6 +8,7 @@ import {
 import classnames from "classnames";
 import {Box, IconButton, Link} from '@material-ui/core'
 import Icon from '@mdi/react'
+import { ToastContainer} from 'react-toastify';
 
 //icons
 import {
@@ -31,9 +32,9 @@ import Maps from "../../pages/maps/Maps";
 import Tables from "../../pages/tables/Tables";
 import Icons from "../../pages/icons/Icons";
 import Charts from "../../pages/charts/Charts";
-import User from "../../pages/user/userManagement";
-import Center from "../../pages/center/centerManagement";
-import Permission from "../../pages/permission/permissionManagement"
+import User from "../../pages/user/UserManagement";
+import Center from "../../pages/Admin/center/CenterManagement";
+import Permission from "../../pages/Admin/permission/PermissionManagement"
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -55,6 +56,7 @@ function Layout(props) {
             })}
           >
             <div className={classes.fakeToolbar} />
+            <ToastContainer autoClose={4000} />
             <Switch>
               <Route path="/app/user" component={User}/>
               <Route path="/app/center" component={Center}/>

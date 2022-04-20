@@ -1,8 +1,181 @@
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import PageTitle from '../../components/PageTitle/PageTitle';
+import { Grid } from "@material-ui/core";
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { retrieveUsers } from '../../features/user/userSlice';
+import { toast } from 'react-toastify';
+import userService from '../../services/user.service';
+import TableComponent from '../dashboard/components/Table/Table';
+import { CircularProgress, IconButton, InputBase } from '@mui/material';
+import { getFormattedDate } from '../../helpers/ultilities';
+import {
+  AddCircleOutline as AddIcon,
+} from '@mui/icons-material';
+import Search from "../../components/Search/Search";
+import classNames from "classnames";
+// styles
+import useStyles from "../../components/Header/styles";
+import { styled, alpha } from '@mui/material/styles';
+
+// const Search = styled('div')(({ theme }) => ({
+//   position: 'relative',
+//   borderRadius: theme.shape.borderRadius,
+//   backgroundColor: alpha(theme.palette.common.white, 0.15),
+//   '&:hover': {
+//     backgroundColor: alpha(theme.palette.common.white, 0.25),
+//   },
+//   marginLeft: 0,
+//   width: '100%',
+//   [theme.breakpoints.up('sm')]: {
+//     marginLeft: theme.spacing(1),
+//     width: 'auto',
+//   },
+// }));
+// const SearchIconWrapper = styled('div')(({ theme }) => ({
+//   padding: theme.spacing(0, 2),
+//   height: '100%',
+//   position: 'absolute',
+//   pointerEvents: 'none',
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+// }));
+
+// const StyledInputBase = styled(InputBase)(({ theme }) => ({
+//   color: 'inherit',
+//   '& .MuiInputBase-input': {
+//     padding: theme.spacing(1, 1, 1, 0),
+//     // vertical padding + font size from searchIcon
+//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+//     transition: theme.transitions.create('width'),
+//     width: '100%',
+//     [theme.breakpoints.up('sm')]: {
+//       width: '12ch',
+//       '&:focus': {
+//         width: '20ch',
+//       },
+//     },
+//   },
+// }));
 
 const userManagement = () => {
+  //Global
+  const dispatch = useDispatch();
+  const { CurrentPage, TotalItems, Items } = useSelector((state) => state.user.users);
+  const { t } = useTranslation();
+
+  //Local
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Id',
+        accessor: 'Id',
+      },
+      {
+        Header: t('User.FirstName'),
+        accessor: 'FirstName',
+      },
+      {
+        Header: t('User.LastName'),
+        accessor: 'LastName'
+      },
+      {
+        Header: t('User.Gender'),
+        accessor: d => d.Gender ? t('User.Male') : t('User.Female')
+      },
+      {
+        Header: 'Email',
+        accessor: 'Email'
+      },
+      {
+        Header: t('User.DateOfBirth'),
+        accessor: d => getFormattedDate(d.DateOfBirth)
+      },
+      {
+        Header: t('User.Address'),
+        accessor: 'Address'
+      },
+      {
+        Header: t('User.Role'),
+        accessor: 'Role.Name'
+      },
+      // {
+      //   id: "Detail",
+      //   Header: 'Action.Detail,
+      //   Cell: ({ row }) => (
+      //     <Button onClick={() => navigate(`/User/detail/${row.values.Id}`)}>
+      //       <i className="bx bx-show-alt" style={{ color: '#ffffff' }} />
+      //     </Button>
+      //   )
+      // },
+      // {
+      //   id: "Edit",
+      //   Header: 'Action.Update,
+      //   Cell: ({ row }) => current.Role.Name === 'ADMIN' ? (['ADMIN', 'CENTRAL ADMIN'].includes(row.original.Role.Name) ? (
+      //     <Button onClick={() => navigate(`/User/edit/${row.values.Id}`)}>
+      //       <i className="bx bx-edit" style={{ color: '#ffffff' }} />
+      //     </Button>
+      //   ) : null) : (['TEACHER', 'PARENT', 'STUDENT'].includes(row.original.Role.Name) ? (
+      //     <Button onClick={() => navigate(`/User/edit/${row.values.Id}`)}>
+      //       <i className="bx bx-edit" style={{ color: '#ffffff' }} />
+      //     </Button>
+      //   ) : null)
+
+      // },
+    ],
+    [t]
+  );
+
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [loading, setLoading] = useState(true);
+
+  const fetchUsers = (page) => {
+    userService.getListUser(perPage, page)
+      .then(({ data }) => {
+        dispatch(retrieveUsers(data.Data))
+        setLoading(false);
+      }).catch((err) => toast.error("Loading Failed"));
+  }
+  const handlePageChange = (event, newPage) => {
+    setLoading(true);
+    setPage(newPage+1);
+    fetchUsers(page);
+  };
+  const handlePerRowsChange = event => {
+    setLoading(true);
+    setPerPage(parseInt(event.target.value, 10));
+    setPage(1);
+    fetchUsers(page)
+  };
+  useEffect(() => {
+    fetchUsers(page);
+  }, [dispatch, page, perPage]);
+
   return (
-    <div>userManagement</div>
+    <>
+      <PageTitle title="User Management" button={
+        <div style={{
+          display: "flex",
+          alignItems: "center"
+        }}>
+          <Search />
+          <IconButton color="primary" aria-label="upload picture" size="large">
+            <AddIcon fontSize="inherit" />
+          </IconButton>
+        </div>
+      } />
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          {loading ? (<CircularProgress />) : (
+            <TableComponent data={Items} columns={columns} PerPage={perPage} TotalItems={TotalItems} CurrentPage={CurrentPage} 
+            PageChangeHandler={handlePageChange}
+            PerRowChangeHandler = {handlePerRowsChange} />
+          )}
+        </Grid>
+      </Grid>
+    </>
   )
 }
 
