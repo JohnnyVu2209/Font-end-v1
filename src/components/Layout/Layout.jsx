@@ -33,6 +33,7 @@ import Tables from "../../pages/tables/Tables";
 import Icons from "../../pages/icons/Icons";
 import Charts from "../../pages/charts/Charts";
 import User from "../../pages/user/UserManagement";
+import CreateUser from "../../pages/user/CreateUser";
 import Center from "../../pages/Admin/center/CenterManagement";
 import Permission from "../../pages/Admin/permission/PermissionManagement"
 
@@ -58,6 +59,7 @@ function Layout(props) {
             <div className={classes.fakeToolbar} />
             <ToastContainer autoClose={4000} />
             <Switch>
+              <Route path="/app/user/create" component={CreateUser} />
               <Route path="/app/user" component={User}/>
               <Route path="/app/center" component={Center}/>
               <Route path="/app/permission" component={Permission}/>

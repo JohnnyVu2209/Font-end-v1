@@ -44,10 +44,10 @@
     "MinAddress": "Địa chỉ không được ít hơn 6 kí tự",
     "MaxAvatar": "Hình có dung lượng quá lớn",
     "AvatarFormat": "Không hỗ trợ định dạng ảnh",
-    "RequiredRole": "Bắt buộc chuyền vai trò",
+    "RequiredRole": "Bắt buộc chọn vai trò",
     "RequiredCode": "Bắt buộc nhập mã phân quyền",
-    "RequiredCenter": "Bắt buộc chuyền trung tâm",
-    "RequiredGender": "Bắt buộc chuyền giới tính",
+    "RequiredCenter": "Bắt buộc chọn trung tâm",
+    "RequiredGender": "Bắt buộc chọn giới tính",
 
     "RequiredCentername": "Bắt buộc nhập tên trung tâm",
     "UrlFormat": "Địa chỉ web không đúng định dạng",

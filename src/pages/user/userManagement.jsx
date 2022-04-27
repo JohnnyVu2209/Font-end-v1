@@ -17,6 +17,7 @@ import classNames from "classnames";
 // styles
 import useStyles from "../../components/Header/styles";
 import { styled, alpha } from '@mui/material/styles';
+import { useHistory } from 'react-router-dom';
 
 // const Search = styled('div')(({ theme }) => ({
 //   position: 'relative',
@@ -59,7 +60,7 @@ import { styled, alpha } from '@mui/material/styles';
 //   },
 // }));
 
-const userManagement = () => {
+const userManagement = (props) => {
   //Global
   const dispatch = useDispatch();
   const { CurrentPage, TotalItems, Items } = useSelector((state) => state.user.users);
@@ -161,7 +162,7 @@ const userManagement = () => {
           alignItems: "center"
         }}>
           <Search />
-          <IconButton color="primary" aria-label="upload picture" size="large">
+          <IconButton color="primary" aria-label="upload picture" size="large" onClick={() => props.history.push("/app/user/create")}>
             <AddIcon fontSize="inherit" />
           </IconButton>
         </div>
