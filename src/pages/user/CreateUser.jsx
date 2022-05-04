@@ -18,6 +18,8 @@ import { GetSelectCenter, removeSelectCenter } from '../../features/center/cente
 import { LoadingButton } from '@mui/lab';
 import userService from '../../services/user.service';
 import { toast } from 'react-toastify';
+import {useHistory} from "react-router-dom"; 
+
 
 const InputAvatar = styled('input')({
     display: 'none',
@@ -48,17 +50,18 @@ const CreateUser = () => {
     const current = tokenService.getUserInfo();
 
     const { t } = useTranslation();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const history = useHistory();
     const selectRoles = useSelector((state) => state.permission.seletecRoles);
     const selectCenters = useSelector((state) => state.center.selectCenter);
 
     useEffect(() => {
         dispatch(GetSelectRole());
         dispatch(GetSelectCenter());
-        // return () => {
-        //     dispatch(removeSelectRole());
-        //     dispatch(removeSelectCenter());
-        // }
+        return () => {
+            dispatch(removeSelectRole());
+            dispatch(removeSelectCenter());
+        }
     }, [dispatch])
 
     const [showPassword, setShowPassword] = useState(false);
@@ -187,6 +190,7 @@ const CreateUser = () => {
                                 toast.success(t(SUCCESSES.CREATE_USER_SUCCESS));
                                 setSubmitting(false);
                                 resetForm();
+                                history.push("/app/user");
                             }).catch(() => {
                                 setSubmitting(false);
                                 toast.error(t(ERRORS.CREATE_USER_FAIL));

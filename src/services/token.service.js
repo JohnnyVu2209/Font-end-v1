@@ -29,7 +29,7 @@ const setUser = (User) => {
     localStorage.setItem("user", JSON.stringify(User));
 }
 
-const updateUserInfo = (info) => {
+const updateUserInfo = ({info}) => {
     user.Information = info;
     localStorage.setItem('user', JSON.stringify(user));
 }

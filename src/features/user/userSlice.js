@@ -8,6 +8,12 @@ async (pageRequest) =>{
     return response.data;
 });
 
+export const fetchAsyncUser = createAsyncThunk("users/fetchUserInfo", async (id) => {
+    const response = await userService.getUser(id);
+    return response.data;
+});
+
+
 const initialState = {users: { CurrentPage:0,TotalItems:0,Items: [] }, user: {Role:{},Center:{}}};
 
 const userSlice = createSlice({
@@ -20,6 +26,9 @@ const userSlice = createSlice({
         },
         retrieveUsers:(state, {payload}) =>{
             state.users = payload
+        },
+        removeUser: (state) => {
+            state.user = {};
         }
     },
     extraReducers:{
@@ -32,10 +41,13 @@ const userSlice = createSlice({
         },
         [fetchAsyncUsers.rejected]: () =>{
             console.log("Rejected!");
-        }
+        },
+        [fetchAsyncUser.fulfilled]: (state, {payload}) =>{
+            return {...state, user : payload.Data}
+        },
     }
 });
 
 const {reducer, actions} = userSlice;
-export const {createUser, retrieveUsers} = actions;
+export const {createUser, retrieveUsers, removeUser} = actions;
 export default reducer;

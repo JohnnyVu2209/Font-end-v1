@@ -8,6 +8,7 @@ import {
   MenuItem,
   Fab,
   Link,
+  Avatar,
 } from "@material-ui/core";
 import {
   Menu as MenuIcon,
@@ -38,6 +39,7 @@ import {
 import { useDispatch } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { useTranslation } from "react-i18next";
+import tokenService from "../../services/token.service";
 
 const messages = [
   {
@@ -99,9 +101,10 @@ export default function Header(props) {
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
   var dispatch = useDispatch();
-  const {t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const lang = localStorage.getItem('lang');
-  
+  const current = tokenService.getUserInfo();
+
   // local
   var [mailMenu, setMailMenu] = useState(null);
   var [isMailsUnread, setIsMailsUnread] = useState(true);
@@ -109,19 +112,17 @@ export default function Header(props) {
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
-  
-  const handleChangeLanguage = () =>
-    {
-        if(lang === 'vi')
-        {
-            i18n.changeLanguage('en');
-            localStorage.setItem('lang','en');
-        }
-        else{
-            i18n.changeLanguage('vi');
-            localStorage.setItem('lang','vi');
-        }
+
+  const handleChangeLanguage = () => {
+    if (lang === 'vi') {
+      i18n.changeLanguage('en');
+      localStorage.setItem('lang', 'en');
     }
+    else {
+      i18n.changeLanguage('vi');
+      localStorage.setItem('lang', 'vi');
+    }
+  }
 
   const signOut = () => {
     dispatch(logout());
@@ -163,7 +164,7 @@ export default function Header(props) {
           Learning Management
         </Typography>
         <div className={classes.grow} />
-        
+
         <div
           className={classNames(classes.search, {
             [classes.searchFocused]: isSearchOpen,
@@ -235,7 +236,12 @@ export default function Header(props) {
           aria-controls="profile-menu"
           onClick={e => setProfileMenu(e.currentTarget)}
         >
-          <AccountIcon classes={{ root: classes.headerIcon }} />
+          {current.ImageSrc ?
+            <Avatar alt="Remy Sharp" src={current.ImageSrc} />
+            :
+            <AccountIcon classes={{ root: classes.headerIcon }} />
+          }
+
         </IconButton>
         <Menu
           id="mail-menu"
@@ -321,15 +327,7 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              John Smith
-            </Typography>
-            <Typography
-              className={classes.profileMenuLink}
-              component="a"
-              color="primary"
-              href="https://flatlogic.com"
-            >
-              Flalogic.com
+              {current.FirstName + ' ' + current.LastName}
             </Typography>
           </div>
           <MenuItem
@@ -337,10 +335,11 @@ export default function Header(props) {
               classes.profileMenuItem,
               classes.headerMenuItem,
             )}
+            onClick={() => props.history.push(`/app/user/detail/${current.Id}`)}
           >
             <AccountIcon className={classes.profileMenuIcon} /> Profile
           </MenuItem>
-          <MenuItem
+          {/* <MenuItem
             className={classNames(
               classes.profileMenuItem,
               classes.headerMenuItem,
@@ -355,7 +354,7 @@ export default function Header(props) {
             )}
           >
             <AccountIcon className={classes.profileMenuIcon} /> Messages
-          </MenuItem>
+          </MenuItem> */}
           <div className={classes.profileMenuUser}>
             <Typography
               className={classes.profileMenuLink}

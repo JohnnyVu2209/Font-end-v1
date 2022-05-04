@@ -20,7 +20,7 @@ import {
 } from "@material-ui/icons";
 import useStyles from "../../styles";
 import { useTable } from 'react-table'
-import { useFilters, useGlobalFilter, usePagination, useRowSelect, useSortBy } from "react-table/dist/react-table.development";
+import { useFilters, useGlobalFilter, usePagination, useResizeColumns, useRowSelect, useSortBy } from "react-table/dist/react-table.development";
 import { useSelector } from "react-redux";
 import { useAsyncDebounce } from "react-table/dist/react-table.development";
 
@@ -109,6 +109,7 @@ export default function TableComponent({
     useSortBy,
     usePagination,
     useRowSelect,
+    useResizeColumns,
     hooks => {
       hooks.allColumns.push(columns =>
         [
@@ -147,6 +148,7 @@ export default function TableComponent({
                     <TableSortLabel
                       active={column.isSorted}
                       direction={column.isSortedDesc ? 'desc' : 'asc'}
+                      {...column.getResizerProps()}
                     >
                       {column.render('Header')}
                     </TableSortLabel>
@@ -168,9 +170,9 @@ export default function TableComponent({
             prepareRow(row)
             return (
               <TableRow {...row.getRowProps()}>
-                {row.cells.map(cell => {
+                {row.cells.map((cell,index) => {
                   return (
-                    <TableCell {...cell.getCellProps()}>
+                    <TableCell key={index}  {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </TableCell>
                   )

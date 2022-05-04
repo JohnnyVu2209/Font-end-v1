@@ -15,7 +15,7 @@ const centerSlice = createSlice({
         retrieveCenters: (state, {payload}) =>{
             state.centers = payload;
         },
-        RemoveSelectCenter: (state) =>{
+        removeSelectCenter: (state) =>{
             state.selectCenter = [];
         }
     },

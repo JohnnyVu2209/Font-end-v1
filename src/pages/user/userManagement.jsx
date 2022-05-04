@@ -11,6 +11,8 @@ import { CircularProgress, IconButton, InputBase } from '@mui/material';
 import { getFormattedDate } from '../../helpers/ultilities';
 import {
   AddCircleOutline as AddIcon,
+  Delete as DeleteIcon,
+  Visibility
 } from '@mui/icons-material';
 import Search from "../../components/Search/Search";
 import classNames from "classnames";
@@ -60,10 +62,12 @@ import { useHistory } from 'react-router-dom';
 //   },
 // }));
 
-const userManagement = (props) => {
+const userManagement = () => {
   //Global
   const dispatch = useDispatch();
+  const history = useHistory();
   const { CurrentPage, TotalItems, Items } = useSelector((state) => state.user.users);
+  const {isAdmin} = useSelector((state) => state.auth);
   const { t } = useTranslation();
 
   //Local
@@ -101,24 +105,24 @@ const userManagement = (props) => {
         Header: t('User.Role'),
         accessor: 'Role.Name'
       },
-      // {
-      //   id: "Detail",
-      //   Header: 'Action.Detail,
-      //   Cell: ({ row }) => (
-      //     <Button onClick={() => navigate(`/User/detail/${row.values.Id}`)}>
-      //       <i className="bx bx-show-alt" style={{ color: '#ffffff' }} />
-      //     </Button>
-      //   )
-      // },
+      {
+        id: "Detail",
+        Header: t('Action.Detail'),
+        Cell: ({ row }) => (
+          <IconButton aria-label="delete" size="large" onClick={() => history.push(`/app/user/detail/${row.values.Id}`)}>
+            <Visibility fontSize="inherit" />
+          </IconButton>
+        )
+      },
       // {
       //   id: "Edit",
       //   Header: 'Action.Update,
-      //   Cell: ({ row }) => current.Role.Name === 'ADMIN' ? (['ADMIN', 'CENTRAL ADMIN'].includes(row.original.Role.Name) ? (
-      //     <Button onClick={() => navigate(`/User/edit/${row.values.Id}`)}>
+      //   Cell: ({ row }) => isAdmin ? (['ADMIN', 'CENTRAL ADMIN'].includes(row.original.Role.Name) ? (
+      //     <Button onClick={() => history.push(`/app/user/edit/${row.values.Id}`)}>
       //       <i className="bx bx-edit" style={{ color: '#ffffff' }} />
       //     </Button>
       //   ) : null) : (['TEACHER', 'PARENT', 'STUDENT'].includes(row.original.Role.Name) ? (
-      //     <Button onClick={() => navigate(`/User/edit/${row.values.Id}`)}>
+      //     <Button onClick={() => history.push(`/app/user/edit/${row.values.Id}`)}>
       //       <i className="bx bx-edit" style={{ color: '#ffffff' }} />
       //     </Button>
       //   ) : null)
@@ -141,7 +145,7 @@ const userManagement = (props) => {
   }
   const handlePageChange = (event, newPage) => {
     setLoading(true);
-    setPage(newPage+1);
+    setPage(newPage + 1);
     fetchUsers(page);
   };
   const handlePerRowsChange = event => {
@@ -162,7 +166,7 @@ const userManagement = (props) => {
           alignItems: "center"
         }}>
           <Search />
-          <IconButton color="primary" aria-label="upload picture" size="large" onClick={() => props.history.push("/app/user/create")}>
+          <IconButton color="primary" aria-label="upload picture" size="large" onClick={() => history.push("/app/user/create")}>
             <AddIcon fontSize="inherit" />
           </IconButton>
         </div>
@@ -170,9 +174,9 @@ const userManagement = (props) => {
       <Grid container spacing={4}>
         <Grid item xs={12}>
           {loading ? (<CircularProgress />) : (
-            <TableComponent data={Items} columns={columns} PerPage={perPage} TotalItems={TotalItems} CurrentPage={CurrentPage} 
-            PageChangeHandler={handlePageChange}
-            PerRowChangeHandler = {handlePerRowsChange} />
+            <TableComponent data={Items} columns={columns} PerPage={perPage} TotalItems={TotalItems} CurrentPage={CurrentPage}
+              PageChangeHandler={handlePageChange}
+              PerRowChangeHandler={handlePerRowsChange} />
           )}
         </Grid>
       </Grid>

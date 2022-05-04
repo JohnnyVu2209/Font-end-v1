@@ -12,7 +12,7 @@ const setup = (store) => {
             if (config.url.includes('form')) {
                 config.headers["Content-Type"] = "multipart/form-data";
             }
-            console.log("from request: ",config);
+            //console.log("from request: ",config);
             return config;
         }, (error) => {
             return Promise.reject(error);
@@ -24,7 +24,7 @@ const setup = (store) => {
             return res;
         },
         async (err) => {
-            console.log(err.response);
+            //console.log(err.response);
             const originalConfig = err.config;
             if (err.response?.status === 401 && !originalConfig._retry) {
                 originalConfig._retry = true;

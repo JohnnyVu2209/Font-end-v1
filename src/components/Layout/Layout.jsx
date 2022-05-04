@@ -6,9 +6,9 @@ import {
   withRouter,
 } from "react-router-dom";
 import classnames from "classnames";
-import {Box, IconButton, Link} from '@material-ui/core'
+import { Box, IconButton, Link } from '@material-ui/core'
 import Icon from '@mdi/react'
-import { ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 //icons
 import {
@@ -25,6 +25,12 @@ import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
 
 // pages
+//User
+import User from "../../pages/user/UserManagement";
+import CreateUser from "../../pages/user/CreateUser";
+import UserDetails from "../../pages/user/UserDetails";
+import EditUser from "../../pages/user/EditUser";
+//
 import Dashboard from "../../pages/dashboard/Dashboard";
 import Typography from "../../pages/typography/Typography";
 import Notifications from "../../pages/notifications/Notifications";
@@ -32,8 +38,6 @@ import Maps from "../../pages/maps/Maps";
 import Tables from "../../pages/tables/Tables";
 import Icons from "../../pages/icons/Icons";
 import Charts from "../../pages/charts/Charts";
-import User from "../../pages/user/UserManagement";
-import CreateUser from "../../pages/user/CreateUser";
 import Center from "../../pages/Admin/center/CenterManagement";
 import Permission from "../../pages/Admin/permission/PermissionManagement"
 
@@ -48,35 +52,37 @@ function Layout(props) {
 
   return (
     <div className={classes.root}>
-        <>
-          <Header history={props.history} />
-          <Sidebar />
-          <div
-            className={classnames(classes.content, {
-              [classes.contentShift]: layoutState.isSidebarOpened,
-            })}
-          >
-            <div className={classes.fakeToolbar} />
-            <ToastContainer autoClose={4000} />
-            <Switch>
-              <Route path="/app/user/create" component={CreateUser} />
-              <Route path="/app/user" component={User}/>
-              <Route path="/app/center" component={Center}/>
-              <Route path="/app/permission" component={Permission}/>
-              <Route path="/app/dashboard" component={Dashboard} />
-              <Route path="/app/typography" component={Typography} />
-              <Route path="/app/tables" component={Tables} />
-              <Route path="/app/notifications" component={Notifications} />
-              <Route
-                exact
-                path="/app/ui"
-                render={() => <Redirect to="/app/ui/icons" />}
-              />
-              <Route path="/app/ui/maps" component={Maps} />
-              <Route path="/app/ui/icons" component={Icons} />
-              <Route path="/app/ui/charts" component={Charts} />
-            </Switch>
-            <Box
+      <>
+        <Header history={props.history} />
+        <Sidebar />
+        <div
+          className={classnames(classes.content, {
+            [classes.contentShift]: layoutState.isSidebarOpened,
+          })}
+        >
+          <div className={classes.fakeToolbar} />
+          <ToastContainer autoClose={4000} />
+          <Switch>
+            <Route path="/app/user/edit/:id" component={EditUser} />
+            <Route path="/app/user/detail/:id" component={UserDetails} />
+            <Route path="/app/user/create" component={CreateUser} />
+            <Route path="/app/user" component={User} />
+            <Route path="/app/center" component={Center} />
+            <Route path="/app/permission" component={Permission} />
+            <Route path="/app/dashboard" component={UserDetails} />
+            <Route path="/app/typography" component={Typography} />
+            <Route path="/app/tables" component={Tables} />
+            <Route path="/app/notifications" component={Notifications} />
+            <Route
+              exact
+              path="/app/ui"
+              render={() => <Redirect to="/app/ui/icons" />}
+            />
+            <Route path="/app/ui/maps" component={Maps} />
+            <Route path="/app/ui/icons" component={Icons} />
+            <Route path="/app/ui/charts" component={Charts} />
+          </Switch>
+          {/* <Box
               mt={5}
               width={"100%"}
               display={"flex"}
@@ -150,9 +156,9 @@ function Layout(props) {
                   </IconButton>
                 </Link>
               </div>
-            </Box>
-          </div>
-        </>
+            </Box> */}
+        </div>
+      </>
     </div>
   );
 }
