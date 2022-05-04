@@ -12,15 +12,19 @@ import { getFormattedDate } from '../../helpers/ultilities';
 import {
   AddCircleOutline as AddIcon,
   Delete as DeleteIcon,
-  Visibility
+  Visibility,
+  Edit as EditIcon,
 } from '@mui/icons-material';
 import Search from "../../components/Search/Search";
+import { Typography } from "../../components/Wrappers/Wrappers";
 import classNames from "classnames";
 // styles
 import useStyles from "../../components/Header/styles";
 import { styled, alpha } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
-
+import ConfirmDialog from "../../components/Dialog/Dialog";
+import ERRORS from '../../../../../../CAPSTONE - LMS/SourceCode/FrontEnd/Front-end/src/constants/ErrorCode';
+import SUCCESSES from '../../../../../../CAPSTONE - LMS/SourceCode/FrontEnd/Front-end/src/constants/SuccessCode';
 // const Search = styled('div')(({ theme }) => ({
 //   position: 'relative',
 //   borderRadius: theme.shape.borderRadius,
@@ -67,7 +71,7 @@ const userManagement = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { CurrentPage, TotalItems, Items } = useSelector((state) => state.user.users);
-  const {isAdmin} = useSelector((state) => state.auth);
+  const { isAdmin } = useSelector((state) => state.auth);
   const { t } = useTranslation();
 
   //Local
@@ -109,25 +113,25 @@ const userManagement = () => {
         id: "Detail",
         Header: t('Action.Detail'),
         Cell: ({ row }) => (
-          <IconButton aria-label="delete" size="large" onClick={() => history.push(`/app/user/detail/${row.values.Id}`)}>
+          <IconButton aria-label="detail" size="large" onClick={() => history.push(`/app/user/detail/${row.values.Id}`)}>
             <Visibility fontSize="inherit" />
           </IconButton>
         )
       },
-      // {
-      //   id: "Edit",
-      //   Header: 'Action.Update,
-      //   Cell: ({ row }) => isAdmin ? (['ADMIN', 'CENTRAL ADMIN'].includes(row.original.Role.Name) ? (
-      //     <Button onClick={() => history.push(`/app/user/edit/${row.values.Id}`)}>
-      //       <i className="bx bx-edit" style={{ color: '#ffffff' }} />
-      //     </Button>
-      //   ) : null) : (['TEACHER', 'PARENT', 'STUDENT'].includes(row.original.Role.Name) ? (
-      //     <Button onClick={() => history.push(`/app/user/edit/${row.values.Id}`)}>
-      //       <i className="bx bx-edit" style={{ color: '#ffffff' }} />
-      //     </Button>
-      //   ) : null)
+      {
+        id: "Edit",
+        Header: t('Action.Update'),
+        Cell: ({ row }) => isAdmin ? (['ADMIN', 'CENTRAL ADMIN'].includes(row.original.Role.Name) ? (
+          <IconButton aria-label="edit" size="large" onClick={() => history.push(`/app/user/edit/${row.values.Id}`)}>
+            <EditIcon fontSize="inherit" />
+          </IconButton>
+        ) : null) : (['TEACHER', 'PARENT', 'STUDENT'].includes(row.original.Role.Name) ? (
+          <IconButton aria-label="edit" size="large" onClick={() => history.push(`/app/user/edit/${row.values.Id}`)}>
+            <EditIcon fontSize="inherit" />
+          </IconButton>
+        ) : null)
 
-      // },
+      },
     ],
     [t]
   );
@@ -135,8 +139,12 @@ const userManagement = () => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [loading, setLoading] = useState(true);
+  const [rowSelect, setRowSelect] = useState(0);
+  const [selectList, setSelectList] = useState([]);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const fetchUsers = (page) => {
+    setLoading(true);
     userService.getListUser(perPage, page)
       .then(({ data }) => {
         dispatch(retrieveUsers(data.Data))
@@ -144,16 +152,26 @@ const userManagement = () => {
       }).catch((err) => toast.error("Loading Failed"));
   }
   const handlePageChange = (event, newPage) => {
-    setLoading(true);
+    
     setPage(newPage + 1);
     fetchUsers(page);
   };
   const handlePerRowsChange = event => {
-    setLoading(true);
     setPerPage(parseInt(event.target.value, 10));
     setPage(1);
     fetchUsers(page)
   };
+
+  const handleDelete = () => {
+    selectList.forEach(element => {
+      userService.deleteUser(element)
+      .then(() => toast.success(t(SUCCESSES.DELETE_USER_SUCCESS)))
+      .catch(() => toast.error(t(ERRORS.DELETE_USER_FAIL)))
+    });
+    setDeleteModal(false);
+    setRowSelect(0);
+    fetchUsers(page);
+  }
   useEffect(() => {
     fetchUsers(page);
   }, [dispatch, page, perPage]);
@@ -165,10 +183,21 @@ const userManagement = () => {
           display: "flex",
           alignItems: "center"
         }}>
-          <Search />
-          <IconButton color="primary" aria-label="upload picture" size="large" onClick={() => history.push("/app/user/create")}>
-            <AddIcon fontSize="inherit" />
-          </IconButton>
+          {rowSelect > 0 ? (
+            <>
+              <Typography variant="h3" >
+                {rowSelect} selected
+              </Typography>
+              <IconButton aria-label="edit" size="large" onClick={() => setDeleteModal(true)}>
+                <DeleteIcon fontSize="inherit" />
+              </IconButton>
+            </>
+          ) : (<>
+            <Search />
+            <IconButton color="primary" aria-label="upload picture" size="large" onClick={() => history.push("/app/user/create")}>
+              <AddIcon fontSize="inherit" />
+            </IconButton>
+          </>)}
         </div>
       } />
       <Grid container spacing={4}>
@@ -176,9 +205,21 @@ const userManagement = () => {
           {loading ? (<CircularProgress />) : (
             <TableComponent data={Items} columns={columns} PerPage={perPage} TotalItems={TotalItems} CurrentPage={CurrentPage}
               PageChangeHandler={handlePageChange}
-              PerRowChangeHandler={handlePerRowsChange} />
+              PerRowChangeHandler={handlePerRowsChange}
+              numRowSelect={(num, row) => {setRowSelect(num); setSelectList(row);}} />
           )}
         </Grid>
+        <ConfirmDialog
+          title={t('Title.Confirmation')}
+          Show={deleteModal}
+          HandleSave={handleDelete}
+          HandleClose={() => { setDeleteModal(false); }}
+          CancelTitle={t('Action.No')}
+          SaveTitle={t('Action.Yes')}
+        // SaveVariant='danger'
+        >
+          {t('Confirmation.Delete') + '?'}
+        </ConfirmDialog>
       </Grid>
     </>
   )

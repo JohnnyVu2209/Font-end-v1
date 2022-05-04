@@ -73,7 +73,8 @@ export default function TableComponent({
   PerPage,
   PerRowChangeHandler,
   PageChangeHandler,
-  TotalItems, }) {
+  TotalItems,
+  numRowSelect }) {
   const classes = useStyles();
   // var keys = Object.keys(data[0]).map(i => i.toUpperCase());
   // keys.shift(); // delete "id" key
@@ -95,7 +96,7 @@ export default function TableComponent({
     page,
     selectedFlatRows,
     state,
-    state: { pageIndex, selectedRowIds },
+    state: {selectedRowIds },
     preGlobalFilteredRows,
     setGlobalFilter,
   } = useTable({
@@ -135,7 +136,11 @@ export default function TableComponent({
     useEffect(() => {
       setGlobalFilter(searchText);
     }, [searchText]);
-    
+    useEffect(() => {
+      numRowSelect(Object.keys(selectedRowIds).length, selectedFlatRows.map(
+        d => d.original.Id
+      ));
+    },[selectedRowIds,selectedFlatRows]);
   return (
     <TableContainer component={Paper}>
       <Table  {...getTableProps()}>

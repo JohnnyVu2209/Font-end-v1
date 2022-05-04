@@ -197,15 +197,15 @@ const EditUser = () => {
             }
             myRequest
               .then((res) => {
-                if (id === current.Id) {
-                  localUser.Information = res.data.Data;
-                  localStorage.setItem('user', JSON.stringify(localUser));
-                }
                 toast.success(t(SUCCESSES.UPDATE_USER_SUCCESS));
                 setSubmitting(false);
                 resetForm();
-                window.location.reload();
                 history.push(`/app/user/detail/${id}`);
+                if (id === current.Id) {
+                  localUser.Information = res.data.Data;
+                  localStorage.setItem('user', JSON.stringify(localUser));
+                  window.location.reload();
+                }
               }).catch((err) => {
                 toast.error(err);
                 toast.error(t(ERRORS.UPDATE_USER_FAIL));
