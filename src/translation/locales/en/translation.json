@@ -18,9 +18,13 @@
     "DelCenterSuccess": "Delete center successfully",
     "RmvMemSuccess": "Remove member successfully",
     "AddMemSuccess": "Add member successfully",
+    "RmvTeacherSuccess": "Remove teacher successfully",
+    "AddTeacherSuccess": "Add teacher successfully",
     "CrRoleSuccess": "Create role successfully",
     "DelRoleSuccess": "Delete role successfully",
-    "EditRoleSuccess": "Update role successfully"
+    "EditRoleSuccess": "Update role successfully",
+    "CrCourseSuccess": "Create course successfully",
+    "UpCourseSuccess": "Update course successfully"
   },
   "ErrorMessage": {
     "EnterUsername": "Please enter username.",
@@ -48,7 +52,6 @@
     "RequiredCode": "Role's code is required",
     "RequiredCenter": "Center is required",
     "RequiredGender": "Gender is required",
-
     "RequiredCentername": "Center name is required",
     "UrlFormat": "Url is not valid",
     "CrUserFail": "Create user failed",
@@ -62,7 +65,17 @@
     "CrRoleFail": "Create role failed",
     "DelRoleFail": "Delete role failed",
     "DelDefRole": "Can not delete default role",
-    "EditRoleFail": "Edit role failed"
+    "EditRoleFail": "Edit role failed",
+
+    "RequiredCoursename": "Course name is required",
+    "RangeCoursename": "Course name between 6 and 24 characters",
+    "RequiredTotalsessions": "Total sessions is required",
+    "TotalsessionsFormat": "Total sessions is not valid",
+    "MaxTotalsessions": "Total sessions ranges from 1 to 999",
+    "CrCourseFail":"Create course failed",
+    "UpCourseFail":"Update course failed",
+    "RmvTeacherFail": "Remove teacher from course failed",
+    "AddTeacherFail": "Add teacher to course failed"
   },
   "Login": {
     "Learning Management": "Learning Management",
@@ -91,7 +104,9 @@
   "Confirmation": {
     "Remove": "Are you sure you want to remove ",
     "Delete": "Are you sure you want to delete ",
-    "NoUnvCA": "Do not have any Central Admin are unavailable"
+    "NoUnvCA": "Do not have any Central Admin are unavailable",
+    "NoTeacher": "Do not have any teacher",
+    "Diable": "Are you sure you want to diable this center"
   },
   "User": {
     "Management": "User Management",
@@ -130,6 +145,14 @@
     "Enable": "Enable",
     "Disable": "Disable"
   },
+  "Course": {
+    "Management": "Course Management",
+    "CourseName": "Course Name",
+    "TotalSessions": "Total Sessions",
+    "Avatar": "Avatar",
+    "Description": "Description",
+    "TeacherList": "Teachers List"
+  },
   "Role": {
     "Role": "Role"
   },
@@ -146,5 +169,6 @@
     "EndDate": "EndDate"
   },
   "Notification": "Notification",
-  "NotFound": "Not found"
+  "NotFound": "Not found",
+  "NotFIlled": "Haven't filled"
 }

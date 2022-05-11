@@ -1,24 +1,25 @@
 import { Box, Grid, TextField, FormControl, Avatar, Button, styled, InputLabel, Select, MenuItem, InputAdornment, IconButton, Input, ButtonBase, FormHelperText } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import PageTitle from "../../components/PageTitle/PageTitle";
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { IMaskInput } from 'react-imask';
-import PropTypes from 'prop-types';
 import { Add, Visibility, VisibilityOff } from '@mui/icons-material';
-import * as Yup from 'yup';
-import { Formik } from "formik";
-import SUCCESSES from "../../constants/SuccessCode";
-import ERRORS from '../../constants/ErrorCode';
-import tokenService from "../../services/token.service";
-import { differenceInYears, format } from 'date-fns';
-import { useTranslation } from 'react-i18next';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetSelectRole, removeSelectRole } from '../../features/permission/permissionSlice';
-import { GetSelectCenter, removeSelectCenter } from '../../features/center/centerSlice';
+import { differenceInYears, format } from 'date-fns';
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
+import { useHistory } from "react-router-dom";
 import { LoadingButton } from '@mui/lab';
-import userService from '../../services/user.service';
+import { IMaskInput } from 'react-imask';
 import { toast } from 'react-toastify';
-import {useHistory} from "react-router-dom"; 
+import PropTypes from 'prop-types';
+import { Formik } from "formik";
+import * as Yup from 'yup';
+
+import ERRORS from '../../constants/ErrorCode';
+import SUCCESSES from "../../constants/SuccessCode";
+import tokenService from "../../services/token.service";
+import PageTitle from "../../components/PageTitle/PageTitle";
+import { createUser, createUserForm } from '../../features/user/userSlice';
+import { GetSelectCenter, removeSelectCenter } from '../../features/center/centerSlice';
+import { GetSelectRole, removeSelectRole } from '../../features/permission/permissionSlice';
 
 
 const InputAvatar = styled('input')({
@@ -169,7 +170,7 @@ const CreateUser = () => {
                             Email: values.email,
                             PhoneNumber: values.phone,
                             Address: values.address,
-                            DateOfBirth:format(values.dateOfBirth, 'MM/dd/yyyy'),
+                            DateOfBirth: format(values.dateOfBirth, 'MM/dd/yyyy'),
                             Gender: values.gender,
                             CenterId: values.center,
                             Username: values.username,
@@ -180,10 +181,10 @@ const CreateUser = () => {
                         if (values.avatarFile) {
                             body = getFormData(body);
                             body.append("AvatarFile", values.avatarFile);
-                            myRequest = userService.createUserForm(body);
+                            myRequest = dispatch(createUserForm(body));
                         }
                         else {
-                            myRequest = userService.createUser(body);
+                            myRequest = dispatch(createUser(body));
                         }
                         myRequest
                             .then(() => {
@@ -191,11 +192,11 @@ const CreateUser = () => {
                                 setSubmitting(false);
                                 resetForm();
                                 history.push("/app/user");
-                            }).catch(() => {
+                            }).catch((err) => {
                                 setSubmitting(false);
                                 toast.error(t(ERRORS.CREATE_USER_FAIL));
                             })
-                        return Promise.race([myRequest, timer]).catch(handleError);
+                        return Promise.race([myRequest, timer]).catch(toast.error(t(ERRORS.CREATE_USER_FAIL)));
                     }}
                 >
                     {({
@@ -217,9 +218,7 @@ const CreateUser = () => {
                             <Box component="form" >
                                 <Grid container spacing={2}  >
                                     <Grid item xs={5} />
-                                    <Grid item xs={3} direction="row"
-                                        justifyContent="center"
-                                        alignItems="center">
+                                    <Grid item xs={3}>
                                         <FormControl error={(values.avatarFile !== null) && errors.avatarFile ? true : false} fullWidth variant="standard" margin="dense">
                                             <Avatar alt="Avatar"
                                                 src={values.previewFile ? values.previewFile : ""}
@@ -255,7 +254,7 @@ const CreateUser = () => {
                                                 onBlur={handleBlur}
                                                 value={values.firstName}
                                                 error={touched.firstName && errors.firstName ? true : false}
-                                                helperText={t(errors.firstName)}
+                                                helperText={touched.firstName && errors.firstName ? t(errors.firstName) : null}
                                                 variant="standard"
                                             />
                                         </FormControl>
@@ -270,8 +269,8 @@ const CreateUser = () => {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.lastName}
-                                                error={touched.lastName && errors.lastName}
-                                                helperText={t(errors.lastName)}
+                                                error={touched.lastName && errors.lastName ? true : false}
+                                                helperText={touched.lastName && errors.lastName ? t(errors.lastName) : null}
                                                 variant="standard"
                                             />
                                         </FormControl>

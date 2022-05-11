@@ -52,6 +52,7 @@ function Login(props) {
   // global
   var dispatch = useDispatch();
   var message = useSelector((state) => state.message.message)
+  var { isAdmin,isCAdmin } = useSelector((state) => state.auth);
   // local
   var [isLoading, setIsLoading] = useState(false);
   var [error, setError] = useState(null);
@@ -98,7 +99,8 @@ function Login(props) {
           if (message)
             dispatch(clearMessage());
           window.location.reload();
-          props.history.push('/app/user')
+          if (isAdmin || isCAdmin)
+            props.history.push('/app/user');
         }
       ).catch((error) => {
         dispatch(setMessage(ERRORS[error.response.data.Message]));
@@ -135,15 +137,15 @@ function Login(props) {
           <FormControl error={errors.username} fullWidth variant="standard" margin="dense">
             <InputLabel htmlFor="standard-username">Username</InputLabel>
             <Input
-            id="standard-username"
-            type="text"
-            {...register('username')}
-            onChange={e => setLoginValue(e.target.value)}
+              id="standard-username"
+              type="text"
+              {...register('username')}
+              onChange={e => setLoginValue(e.target.value)}
             />
             {
               errors.username?.message ? (<FormHelperText id="component-error-text">{errors.username?.message}</FormHelperText>) : null
             }
-            
+
           </FormControl>
 
           <FormControl error={errors.password} fullWidth variant="standard">

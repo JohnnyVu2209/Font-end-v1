@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetSelectRole, removeSelectRole } from '../../features/permission/permissionSlice';
 import { GetSelectCenter, removeSelectCenter } from '../../features/center/centerSlice';
-import { fetchAsyncUser, removeUser } from "../../features/user/userSlice";
+import { fetchAsyncUser, removeUser, updateUser, updateUserForm } from "../../features/user/userSlice";
 import { LoadingButton } from '@mui/lab';
 import userService from '../../services/user.service';
 import { toast } from 'react-toastify';
@@ -190,24 +190,24 @@ const EditUser = () => {
             if (values.avatarFile) {
               body = getFormData(body);
               body.append("AvatarFile", values.avatarFile);
-              myRequest = userService.updateUserForm(id, body);
+              myRequest = dispatch(updateUserForm({id:id, data: body}));
             }
             else {
-              myRequest = userService.updateUser(id, body);
+              myRequest = dispatch(updateUser({id:id, data:body}))
             }
             myRequest
+            .unwrap()
               .then((res) => {
                 toast.success(t(SUCCESSES.UPDATE_USER_SUCCESS));
                 setSubmitting(false);
                 resetForm();
                 history.push(`/app/user/detail/${id}`);
                 if (id === current.Id) {
-                  localUser.Information = res.data.Data;
+                  localUser.Information = res.Data;
                   localStorage.setItem('user', JSON.stringify(localUser));
                   window.location.reload();
                 }
               }).catch((err) => {
-                toast.error(err);
                 toast.error(t(ERRORS.UPDATE_USER_FAIL));
                 setSubmitting(false);
               });

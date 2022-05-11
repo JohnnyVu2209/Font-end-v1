@@ -30,6 +30,21 @@ import User from "../../pages/user/UserManagement";
 import CreateUser from "../../pages/user/CreateUser";
 import UserDetails from "../../pages/user/UserDetails";
 import EditUser from "../../pages/user/EditUser";
+//Center
+import Center from "../../pages/Admin/center/CenterManagement";
+import CreateCenter from "../../pages/Admin/center/CreateCenter";
+import EditCenter from "../../pages/Admin/center/EditCenter";
+import CenterDetails from "../../pages/Admin/center/CenterDetails";
+//Permission
+import Permission from "../../pages/Admin/permission/PermissionManagement";
+import CreatePermission from "../../pages/Admin/permission/CreatePermission";
+import EditPermission from "../../pages/Admin/permission/EditPermission";
+import PermissionDetails from "../../pages/Admin/permission/PermissionDetails";
+//Course
+import Course from "../../pages/CentralAdmin/Course/CourseManagement";
+import CreateCourse from "../../pages/CentralAdmin/Course/CreateCourse";
+import EditCourse from "../../pages/CentralAdmin/Course/EditCourse";
+import CourseDetails from "../../pages/CentralAdmin/Course/CourseDetails";
 //
 import Dashboard from "../../pages/dashboard/Dashboard";
 import Typography from "../../pages/typography/Typography";
@@ -38,8 +53,6 @@ import Maps from "../../pages/maps/Maps";
 import Tables from "../../pages/tables/Tables";
 import Icons from "../../pages/icons/Icons";
 import Charts from "../../pages/charts/Charts";
-import Center from "../../pages/Admin/center/CenterManagement";
-import Permission from "../../pages/Admin/permission/PermissionManagement"
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -67,8 +80,22 @@ function Layout(props) {
             <Route path="/app/user/detail/:id" component={UserDetails} />
             <Route path="/app/user/create" component={CreateUser} />
             <Route path="/app/user" component={User} />
+
+            <Route path ="/app/center/detail/:id" component={CenterDetails}/>
+            <Route path ="/app/center/edit/:id" component={EditCenter}/>
+            <Route path ="/app/center/create" component={CreateCenter}/>
             <Route path="/app/center" component={Center} />
+
+            <Route path="/app/permission/detail/:id" component={PermissionDetails} />
+            <Route path="/app/permission/edit/:id" component={EditPermission} />
+            <Route path="/app/permission/create" component={CreatePermission} />
             <Route path="/app/permission" component={Permission} />
+
+            <Route path="/app/course/detail/:id" component={CourseDetails} />
+            <Route path="/app/course/edit/:id" component={EditCourse} />
+            <Route path="/app/course/create" component={CreateCourse} />
+            <Route path="/app/course" component={Course} />
+
             <Route path="/app/dashboard" component={UserDetails} />
             <Route path="/app/typography" component={Typography} />
             <Route path="/app/tables" component={Tables} />

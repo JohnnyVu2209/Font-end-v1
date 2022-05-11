@@ -1,9 +1,9 @@
 import React from 'react'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material"
 
-const CustomDialog = ({ Show, HandleClose, HandleSave, children, title, Size, SaveTitle = "Save Changes", SaveVariant = "primary", CancelTitle = "Cancel", CancelVariant = "secondary" }) => {
+const CustomDialog = ({ Show, HandleClose, HandleSave, children, title, Size = "sm", SaveTitle = "Save Changes", SaveVariant = "primary", CancelTitle = "Cancel", CancelVariant = "secondary" }) => {
     return (
-        <Dialog open={Show} fullWidth maxWidth="sm">
+        <Dialog open={Show} fullWidth maxWidth={Size}>
             <DialogTitle>{title}</DialogTitle>
             <DialogContent dividers>
                 {children ? children : null}

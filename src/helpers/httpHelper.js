@@ -33,6 +33,11 @@ export const postWithParams = (url, params) => {
     params: params,
   })
 }
+export const putWithParams = (url, params) => {
+  return instance.put(url,null,{
+    params: params,
+  })
+}
 
 export const put = (url, body) => {
   return instance.put(url, body);

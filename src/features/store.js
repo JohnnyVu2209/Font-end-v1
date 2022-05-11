@@ -5,6 +5,7 @@ import userReducer from "./user/userSlice";
 import searchReducer from "./search/searchSlice";
 import centerReducer from "./center/centerSlice";
 import permissionReducer from "./permission/permissionSlice";
+import courseReducer from "./course/courseSlice";
 
 export const store = configureStore({
     reducer:{
@@ -13,6 +14,7 @@ export const store = configureStore({
         user: userReducer,
         search: searchReducer,
         center: centerReducer,
-        permission: permissionReducer
+        permission: permissionReducer,
+        course: courseReducer
     },
 });

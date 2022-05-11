@@ -3,7 +3,7 @@ import PageTitle from '../../components/PageTitle/PageTitle';
 import { Grid } from "@material-ui/core";
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { retrieveUsers } from '../../features/user/userSlice';
+import { fetchAsyncUsers, deleteUser } from '../../features/user/userSlice';
 import { toast } from 'react-toastify';
 import userService from '../../services/user.service';
 import TableComponent from '../dashboard/components/Table/Table';
@@ -17,10 +17,6 @@ import {
 } from '@mui/icons-material';
 import Search from "../../components/Search/Search";
 import { Typography } from "../../components/Wrappers/Wrappers";
-import classNames from "classnames";
-// styles
-import useStyles from "../../components/Header/styles";
-import { styled, alpha } from '@mui/material/styles';
 import { useHistory } from 'react-router-dom';
 import ConfirmDialog from "../../components/Dialog/Dialog";
 import ERRORS from '../../../../../../CAPSTONE - LMS/SourceCode/FrontEnd/Front-end/src/constants/ErrorCode';
@@ -145,14 +141,11 @@ const userManagement = () => {
 
   const fetchUsers = (page) => {
     setLoading(true);
-    userService.getListUser(perPage, page)
-      .then(({ data }) => {
-        dispatch(retrieveUsers(data.Data))
-        setLoading(false);
-      }).catch((err) => toast.error("Loading Failed"));
+    dispatch(fetchAsyncUsers({ perPage, page }))
+      .then(() => setLoading(false))
+      .catch(() => toast.error("Loading Failed"));
   }
   const handlePageChange = (event, newPage) => {
-    
     setPage(newPage + 1);
     fetchUsers(page);
   };
@@ -164,13 +157,14 @@ const userManagement = () => {
 
   const handleDelete = () => {
     selectList.forEach(element => {
-      userService.deleteUser(element)
-      .then(() => toast.success(t(SUCCESSES.DELETE_USER_SUCCESS)))
-      .catch(() => toast.error(t(ERRORS.DELETE_USER_FAIL)))
+      dispatch(deleteUser({ id: element }))
+        .then(() => toast.success(t(SUCCESSES.DELETE_USER_SUCCESS)))
+        .catch(() => toast.error(t(ERRORS.DELETE_USER_FAIL)))
     });
+    if (Items.length === 0)
+      fetchUsers(page);
     setDeleteModal(false);
     setRowSelect(0);
-    fetchUsers(page);
   }
   useEffect(() => {
     fetchUsers(page);
@@ -206,7 +200,7 @@ const userManagement = () => {
             <TableComponent data={Items} columns={columns} PerPage={perPage} TotalItems={TotalItems} CurrentPage={CurrentPage}
               PageChangeHandler={handlePageChange}
               PerRowChangeHandler={handlePerRowsChange}
-              numRowSelect={(num, row) => {setRowSelect(num); setSelectList(row);}} />
+              numRowSelect={(num, row) => { setRowSelect(num); setSelectList(row); }} />
           )}
         </Grid>
         <ConfirmDialog

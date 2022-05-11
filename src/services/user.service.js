@@ -33,6 +33,9 @@ const deleteUser = (id) =>{
 const getUnvCAdmin = () =>{
     return get(`${API_URL}/get/central-admin-are-unv`)
 }
+const getTeachersNotCourse = (courseId) =>{
+    return get(`${API_URL}/get/teacher-not-in-course/${courseId}`)
+}
 
 const userService = {
     createUserForm,
@@ -42,7 +45,8 @@ const userService = {
     updateUserForm,
     updateUser,
     deleteUser,
-    getUnvCAdmin
+    getUnvCAdmin,
+    getTeachersNotCourse
 }
 
 export default userService;

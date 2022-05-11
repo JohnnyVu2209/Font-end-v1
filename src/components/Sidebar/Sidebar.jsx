@@ -12,7 +12,9 @@ import {
   ArrowBack as ArrowBackIcon,
   Person as UserIcon,
   Domain as CenterIcon,
-  VerifiedUser as PermissionIcon
+  VerifiedUser as PermissionIcon,
+  Book as CourseIcon,
+  MenuBook as ClassIcon
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -110,57 +112,66 @@ function Sidebar({ location }) {
       { id: 2, label: 'Center', link: '/app/center', icon: <CenterIcon /> },
       { id: 3, label: 'Permission', link: '/app/permission', icon: <PermissionIcon /> },
       //{ id: 4, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
-    ] : [
-      { id: 0, label: 'User', link: '/app/user', icon: <UserIcon /> },
-      {
-        id: 1,
-        label: "Typography",
-        link: "/app/typography",
-        icon: <TypographyIcon />,
-      },
-      { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
-      {
-        id: 3,
-        label: "Notifications",
-        link: "/app/notifications",
-        icon: <NotificationsIcon />,
-      },
-      {
-        id: 4,
-        label: "UI Elements",
-        link: "/app/ui",
-        icon: <UIElementsIcon />,
-        children: [
-          { label: "Icons", link: "/app/ui/icons" },
-          { label: "Charts", link: "/app/ui/charts" },
-          { label: "Maps", link: "/app/ui/maps" },
-        ],
-      },
-      { id: 5, type: "divider" },
-      { id: 6, type: "title", label: "HELP" },
-      { id: 7, label: "Library", link: "https://flatlogic.com/templates", icon: <LibraryIcon /> },
-      { id: 8, label: "Support", link: "https://flatlogic.com/forum", icon: <SupportIcon /> },
-      { id: 9, label: "FAQ", link: "https://flatlogic.com/forum", icon: <FAQIcon /> },
-      { id: 10, type: "divider" },
-      { id: 11, type: "title", label: "PROJECTS" },
-      {
-        id: 12,
-        label: "My recent",
-        link: "",
-        icon: <Dot size="small" color="warning" />,
-      },
-      {
-        id: 13,
-        label: "Starred",
-        link: "",
-        icon: <Dot size="small" color="primary" />,
-      },
-      {
-        id: 14,
-        label: "Background",
-        link: "",
-        icon: <Dot size="small" color="secondary" />,
-      },];
+    ]
+    : (isCAdmin ? [
+      { id: 1, label: 'User', link: '/app/user', icon: <UserIcon /> },
+      { id: 2, label: 'Course', link: '/app/course', icon: <CourseIcon /> },
+      { id: 3, label: 'Class', link: '/app/class', icon: <ClassIcon /> },
+    ] :
+      [
+        { id: 0, label: 'User', link: '/app/user', icon: <UserIcon /> },
+        {
+          id: 1,
+          label: "Typography",
+          link: "/app/typography",
+          icon: <TypographyIcon />,
+        },
+        { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
+        {
+          id: 3,
+          label: "Notifications",
+          link: "/app/notifications",
+          icon: <NotificationsIcon />,
+        },
+        {
+          id: 4,
+          label: "UI Elements",
+          link: "/app/ui",
+          icon: <UIElementsIcon />,
+          children: [
+            { label: "Icons", link: "/app/ui/icons" },
+            { label: "Charts", link: "/app/ui/charts" },
+            { label: "Maps", link: "/app/ui/maps" },
+          ],
+        },
+        { id: 5, type: "divider" },
+        { id: 6, type: "title", label: "HELP" },
+        { id: 7, label: "Library", link: "https://flatlogic.com/templates", icon: <LibraryIcon /> },
+        { id: 8, label: "Support", link: "https://flatlogic.com/forum", icon: <SupportIcon /> },
+        { id: 9, label: "FAQ", link: "https://flatlogic.com/forum", icon: <FAQIcon /> },
+        { id: 10, type: "divider" },
+        { id: 11, type: "title", label: "PROJECTS" },
+        {
+          id: 12,
+          label: "My recent",
+          link: "",
+          icon: <Dot size="small" color="warning" />,
+        },
+        {
+          id: 13,
+          label: "Starred",
+          link: "",
+          icon: <Dot size="small" color="primary" />,
+        },
+        {
+          id: 14,
+          label: "Background",
+          link: "",
+          icon: <Dot size="small" color="secondary" />,
+        },]
+
+    )
+    ;
 
   useEffect(function () {
     window.addEventListener("resize", handleWindowWidthChange);

@@ -18,9 +18,13 @@
     "DelCenterSuccess": "Xóa trung tâm thành công",
     "RmvMemSuccess": "Xoá thành viên khỏi trung tâm thành công",
     "AddMemSuccess": "Thêm thành viên vào trung tâm thành công",
+    "RmvTeacherSuccess": "Xoá giáo viên khỏi khóa học thành công",
+    "AddTeacherSuccess": "Thêm giáo viên vào khóa học thành công",
     "CrRoleSuccess": "Tạo quyền thành công",
     "DelRoleSuccess": "Xóa quyền thành công",
-    "EditRoleSuccess": "Cập nhật quyền thành công"
+    "EditRoleSuccess": "Cập nhật quyền thành công",
+    "CrCourseSuccess": "Tạo khóa học thành công",
+    "UpCourseSuccess": "Cập nhật khóa học thành công"
   },
   "ErrorMessage": {
     "EnterUsername": "Nhập tên tài khoản",
@@ -51,6 +55,16 @@
 
     "RequiredCentername": "Bắt buộc nhập tên trung tâm",
     "UrlFormat": "Địa chỉ web không đúng định dạng",
+
+    "RequiredCoursename":"Bắt buộc nhập tên khóa học",
+    "RangeCoursename":"Tên khóa học trong khoảng từ 6 đến 24 kí tự",
+    "RequiredTotalsessions":"Bắt buộc nhập tổng số buổi",
+    "TotalsessionsFormat": "Tổng số buổi không hợp lệ",
+    "MaxTotalsessions":"Tổng số buổi trong khoảng từ 1 đến 999",
+    "CrCourseFail":"Tạo khóa học thất bại",
+    "UpCourseFail":"Cập nhật khóa học thất bại",
+    "RmvTeacherFail": "Xóa giáo viên khỏi khóa học thất bại",
+    "AddTeacherFail": "Thêm giáo viên vào khóa học thất bại",
 
     "CrUserFail": "Tạo người dùng thất bại",
     "UpUserFail": "Cập nhật người dùng thất bại",
@@ -95,7 +109,9 @@
   "Confirmation": {
     "Remove": "Bạn thật sự muốn xóa ",
     "Delete": "Bạn thật sự muốn xóa người dùng này không",
-    "NoUnvCA": "Không có quản lý chưa có trung tâm"
+    "NoUnvCA": "Không có quản lý chưa có trung tâm",
+    "NoTeacher": "Không có giáo viên",
+    "Diable":"Bạn thật sự muốn vô hiệu hóa trung tâm này"
   },
   "User": {
     "Management": "Quản lý người dùng",
@@ -134,6 +150,14 @@
     "Enable": "Hiệu lực",
     "Disable": "Vô hiệu hóa"
   },
+  "Course": {
+    "Management": "Quản lý khóa học",
+    "CourseName": "Tên khóa học",
+    "TotalSessions": "Tổng số buổi",
+    "Avatar":"Ảnh đại diện",
+    "Description":"Mô tả khóa học",
+    "TeacherList": "Danh sách giáo viên"
+},
   "Role": {
     "Role": "Vai trò"
   },
@@ -151,5 +175,6 @@
     "EndDate": "Ngày Kết Thúc"
   },
   "Notification": "Thông báo",
-  "NotFound": "Không tìm thấy"
+  "NotFound": "Không tìm thấy",
+  "NotFIlled": "Chưa điền"
 }

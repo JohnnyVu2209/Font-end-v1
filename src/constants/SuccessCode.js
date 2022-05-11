@@ -16,7 +16,13 @@ const SUCCESSES = {
     //Role action toast message
     CREATE_ROLE_SUCCESS: "SuccessMessage.CrRoleSuccess",
     DELETE_ROLE_SUCCESS: "SuccessMessage.DelRoleSuccess",
-    EDIT_ROLE_SUCCESS: "SuccessMessage.EditRoleSuccess"
+    EDIT_ROLE_SUCCESS: "SuccessMessage.EditRoleSuccess",
+
+    //Course action toast message
+    CREATE_COURSE_SUCCESS: "SuccessMessage.CrCourseSuccess",
+    UPDATE_COURSE_SUCCESS: "SuccessMessage.UpCourseSuccess",
+    ADD_TEACHER_SUCCESS: "SuccessMessage.AddTeacherSuccess",
+    REMOVE_TEACHER_SUCCESS: "SuccessMessage.RmvTeacherSuccess",
 }
 
 export default SUCCESSES;
